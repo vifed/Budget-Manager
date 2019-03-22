@@ -1,0 +1,45 @@
+body,html {
+    font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
+    padding: 10px;
+    background: url('../images/background.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.container {
+    margin: 0 auto;
+    width: 95%;
+    height: auto;
+    background-color: #166088;
+    border-radius: 0.8em;
+    border: none;
+    box-shadow: 0 1px 1px rgba(28,202,216,0.5), inset 0 0 8px rgba(88,114,145, 0.9);
+    opacity: 0.90;
+}
+
+.logo img {
+    width: 150px;
+    height: 150px;
+}
+
+.modal-header h3 {
+    color: #F6AE2D;
+    font-size: x-large;
+    font-style: italic;
+    font-weight: bold;
+    position: center;
+}
+
+.NoUser label{
+    margin-left: 2%;
+}
+
+.modal-dialog {
+    margin-top: 5%;
+    margin-bottom: auto;
+}
+
+
+/*     background-color: #587291; */
