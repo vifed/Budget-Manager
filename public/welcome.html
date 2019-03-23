@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome - Budget Manager</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="stylesheets/BM.css" rel="stylesheet">
+    <link href="stylesheets/welcome.css" rel="stylesheet">
 
 </head>
 <body>
     <div class="container">
-        <div>
-            <a class="logo">
-                <img src="../public/images/logo.png" alt="logo" class="rounded float-left">
-            </a>
-        </div>
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -25,41 +20,39 @@
                         </div>
                         <div  class="col-10">
                             <p>Questo tool ti permetterà di gestire le tue spese.<br>
-                                Inserisci i tuoi dati e inzia subito a monitorare le tue spese...
+                                Inserisci le tue Entrate e le tue Uscite per monitorare le tue spese...
                             </p>
                         </div>
-
                     </div>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="NoUser">
-                        <p>Inserisci i dati dell'utente che gestirà le spese:</p>
+                    <div class="NoUser " style="display: block">
+                        <p>Immetti i dati dell'utente che gestirà le spese:</p>
                         <form class="regForm">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="inputName">Nome</label>
-                                    <input type="text" class="form-control" id="inputName" placeholder="Nome">
+                                    <label for="inputNome">Nome</label>
+                                    <input type="text" class="form-control border border-info" id="inputNome" placeholder="Nome">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputCognome">Cognome</label>
-                                    <input type="text" class="form-control" id="inputCognome" placeholder="Cognome">
+                                    <input type="text" class="form-control border border-info" id="inputCognome" placeholder="Cognome">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail">Email</label>
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                    <input type="email" class="form-control border border-info" id="inputEmail" placeholder="Email">
                                 </div>
                             </div>
                           <!--  <button type="submit" class="btn btn-primary">Invia</button> -->
                         </form>
-
                     </div>
                     <div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Salva</button>
+                    <button type="button" class="btn btn-primary" id="saveBtn">Salva</button>
                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                 </div>
             </div>
@@ -70,5 +63,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="JS/BM.js"></script>
 </body>
 </html>
