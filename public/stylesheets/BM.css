@@ -1,10 +1,11 @@
 body,html {
     font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
-    background-color: #679436;
+    background-color: #595F72;
+    /*background-color: #137547;*/
 }
 
 .modal-header h3 {
-    color: #F6AE2D;
+    color: #E89005;
     font-size: x-large;
     font-style: italic;
     font-weight: bold;
@@ -16,7 +17,6 @@ body,html {
 }
 
 .modal-dialog {
-    margin-top: 5%;
     margin-bottom: auto;
 }
 

@@ -1,8 +1,22 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
+var mySql = require('mysql');
+
+const myDB = mySql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"",
+    database:"BudManDB"
+});
 
 var app = express();
+
+myDB.connect((err)=>{
+    if (err)
+        console.log(err);
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
