@@ -28,7 +28,6 @@ app.post('/userExists', (req, res)=>{
         if(err)
             console.log(err);
         else{
-            console.log("DB: ", rows, " length ", rows.length);
             if(rows.length > 0){
                 res.send("200");
             }
@@ -99,6 +98,33 @@ app.post('/newOUT', (req, res) =>{
     });
     res.end();
 });
+
+// CREATE VIEW allData AS SELECT Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata, Categoria WHERE Categoria.idCategoria = Entrata.Categoria
+
+
+
+app.post('/getEntrate', (req, res)=>{
+    myDB.query("SELECT Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata, Categoria WHERE Categoria.idCategoria = Entrata.Categoria", (err, rows) =>{
+       if(err)
+           throw err;
+       else{
+           if(rows.length){
+               var inVals = [];
+               for(let i=0; i<rows.length; i++){
+
+               }
+               console.log(rows);
+           }
+       }
+    });
+
+});
+
+app.post('/getUscite', (req, res)=>{
+    myDB.query("SELECT * FROM Uscita")
+
+});
+
 
 app.listen(8080, () =>{
     console.log("Server avviato sulla porta 8080!");

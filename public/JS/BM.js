@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
-    
-    fillGrid();
+    getData();
     
     $.post('/userExists', (res)=>{
         console.log("res e'", res.valueOf());
@@ -35,7 +34,7 @@ $(document).ready(function() {
             Categoria: $("#categoryOut").val().trim()
         };
 
-        console.log("dati in input:  ", newUscita);
+        console.log("dati in input:", newUscita);
 
         $.post('/newOUT', newUscita, () =>{
             alert("Uscita aggiunta con successo!");
@@ -46,6 +45,34 @@ $(document).ready(function() {
 });
 
 
-function fillGrid() {
-    
+function getData() {
+    $.post('/getEntrate', (res) =>{
+        // $.post('/getUscite', (res2) =>{
+        //     renderData(res, res2);
+        // })
+    });
+
 }
+
+function renderData(IN, OUT) {
+    IN.forEach((value, index)=>{
+        var tabElem = '<tr>' +
+            '<td>Entrata</td>'+
+            '<td>'+value.Nome+'</td>'+
+            '<td>'+value.Data+'</td>'+
+            '<td>'+value.Importo+'</td>'+
+            '<td>'+value.Categoria+'</td>'+
+            '</tr>'
+    })
+}
+
+//
+//
+//
+//
+//
+// <td>195,00</td>
+// <td>Casa</td>
+// <td><button id="idOperazione" type="button" class="btn btn-primary"><i class="fa fa-trash"></i>
+//     </button></td>
+//
