@@ -1,5 +1,6 @@
 
 $(document).ready(function() {
+
     getData();
     
     $.post('/userExists', (res)=>{
@@ -16,8 +17,6 @@ $(document).ready(function() {
             Importo: $("#importIn").val().trim(),
             Categoria: $("#categoryIn").val().trim()
         };
-
-        console.log("dati in input:  ", newEntrata);
 
         $.post('/newIN', newEntrata, () =>{
             alert("Entrata aggiunta con successo!");
@@ -45,14 +44,12 @@ $(document).ready(function() {
 
 function getData() {
     $.post('/getEntrate', (res) =>{
-        $.post('/getUscite', (res2) =>{
-            renderData(res, res2);
-        })
+        renderIN(res);
     });
 
 }
 
-function renderData(IN, OUT) {
+function renderIN(IN) {
     IN.forEach((value, index)=>{
         var tabElem = '<tr>' +
             '<td id="type">Entrata</td>'+
@@ -64,7 +61,15 @@ function renderData(IN, OUT) {
             '</tr>';
         $('.resumeData').append(tabElem);
     });
-    OUT.forEach((value, index)=>{
+
+    $.post('/getUscite', (res2) =>{
+        console.log("uscite: ", res2);
+           renderOUT(res2);
+    })
+}
+
+function renderOUT(res2) {
+    res2.forEach((value, index)=>{
         var tabElem = '<tr>' +
             '<td id="type">Uscita</td>'+
             '<td>'+value.Nome+'</td>'+
@@ -81,9 +86,11 @@ function renderData(IN, OUT) {
 function deltupla(id) {
     $("#modaldel").trigger('click');
     $("#safedel-btn").on('click', function () {
+        var myid = $("#mytable td").getElementById("type");
+        console.log("mioid" , myid);
         var typeOF = document.getElementById("type").innerHTML;
         $.post("/delElem", {tipo: typeOF, ID:id}, ()=>{
-            location.reload();
+            window.location.reload();
         })
     });
 }

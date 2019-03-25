@@ -118,7 +118,7 @@ app.post('/getEntrate', (req, res)=>{
                    };
                    inVals.push(sample);
                }
-               res.send(inVals);
+               res.send(inVals).end();
            }
        }
     });
@@ -126,11 +126,13 @@ app.post('/getEntrate', (req, res)=>{
 });
 
 app.post('/getUscite', (req, res)=>{
+    console.log("uscite: ", req);
     myDB.query("SELECT ID, Uscita.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Uscita, Categoria WHERE Categoria.idCategoria = Uscita.Categoria", (err, rows) =>{
         if(err)
             throw err;
         else{
             if(rows.length){
+                console.log("uscite: ", rows);
                 var inVals = [];
                 for(let i=0; i<rows.length; i++){
                     var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
@@ -143,7 +145,7 @@ app.post('/getUscite', (req, res)=>{
                     };
                     inVals.push(sample);
                 }
-                res.send(inVals);
+                res.send(inVals).end();
             }
         }
     });
@@ -151,12 +153,13 @@ app.post('/getUscite', (req, res)=>{
 });
 
 app.post('/delElem', (req, res)=>{
-   myDB.query("DELETE FROM "+req.body.tipo+" WHERE ID="+req.body.ID, (err)=>{
-       if(err)
-           throw err;
-       else
-           res.end();
-   })
+    console.log("del query is DELETE FROM "+req.body.tipo+" WHERE ID="+req.body.ID);
+   // myDB.query("DELETE FROM "+req.body.tipo+" WHERE ID="+req.body.ID, (err)=>{
+   //     if(err)
+   //         throw err;
+   //     else
+   //         res.end();
+   // })
 });
 
 
