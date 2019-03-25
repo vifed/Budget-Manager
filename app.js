@@ -74,12 +74,12 @@ app.post('/newIN', (req, res) =>{
 });
 
 app.post('/newOUT', (req, res) =>{
-    myDB.query("SELECT DISTINCT idUtente FROM Utente", (err, rows)=>{
+    myDB.query("SELECT DISTINCT ID FROM Utente", (err, rows)=>{
         if(err)
             throw err;
         else{
             var newUscita = {
-                Utente: rows[0].idUtente,
+                Utente: rows[0].ID,
                 Nome: req.body.Nome,
                 Data: req.body.Data,
                 Importo: req.body.Importo,
@@ -156,7 +156,6 @@ app.post('/delElem', (req, res)=>{
            throw err;
        else
            res.end();
-
    })
 });
 
