@@ -126,13 +126,11 @@ app.post('/getEntrate', (req, res)=>{
 });
 
 app.post('/getUscite', (req, res)=>{
-    console.log("uscite: ", req);
     myDB.query("SELECT ID, Uscita.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Uscita, Categoria WHERE Categoria.idCategoria = Uscita.Categoria", (err, rows) =>{
         if(err)
             throw err;
         else{
             if(rows.length){
-                console.log("uscite: ", rows);
                 var inVals = [];
                 for(let i=0; i<rows.length; i++){
                     var data = reverseString(new Date(rows[i].Data).toLocaleDateString());

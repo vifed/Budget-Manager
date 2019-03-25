@@ -63,7 +63,6 @@ function renderIN(IN) {
     });
 
     $.post('/getUscite', (res2) =>{
-        console.log("uscite: ", res2);
            renderOUT(res2);
     })
 }
@@ -89,8 +88,8 @@ function deltupla(id) {
         var myid = $("#mytable td").getElementById("type");
         console.log("mioid" , myid);
         var typeOF = document.getElementById("type").innerHTML;
-        $.post("/delElem", {tipo: typeOF, ID:id}, ()=>{
-            window.location.reload();
-        })
+        // $.post("/delElem", {tipo: typeOF, ID:id}, ()=>{
+        //     window.location.reload();
+        // })
     });
 }
