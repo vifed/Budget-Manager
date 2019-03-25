@@ -48,7 +48,6 @@ app.post('/newUser', (req, res)=>{
     myDB.query("INSERT INTO Utente SET ?", user, (err, res )=>{
        if (err)
            console.log(err);
-       console.log(res);
     });
     res.end();
 });
@@ -65,11 +64,9 @@ app.post('/newIN', (req, res) =>{
                Importo: req.body.Importo,
                Categoria: req.body.Categoria
            };
-           console.log(newEntrata);
            myDB.query("INSERT INTO Entrata SET ?", newEntrata, (err, res )=>{
                if (err)
                    console.log(err);
-               console.log(res);
            });
        }
     });
@@ -88,11 +85,9 @@ app.post('/newOUT', (req, res) =>{
                 Importo: req.body.Importo,
                 Categoria: req.body.Categoria
             };
-            console.log(newUscita);
             myDB.query("INSERT INTO Uscita SET ?", newUscita, (err, res )=>{
                 if (err)
                     console.log(err);
-                console.log(res);
             });
         }
     });
@@ -101,19 +96,29 @@ app.post('/newOUT', (req, res) =>{
 
 // CREATE VIEW allData AS SELECT Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata, Categoria WHERE Categoria.idCategoria = Entrata.Categoria
 
-
+function reverseString(str) {
+    return str.split("-").reverse().join("/");
+}
 
 app.post('/getEntrate', (req, res)=>{
-    myDB.query("SELECT Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata, Categoria WHERE Categoria.idCategoria = Entrata.Categoria", (err, rows) =>{
+    myDB.query("SELECT idEntrata, Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata, Categoria WHERE Categoria.idCategoria = Entrata.Categoria", (err, rows) =>{
        if(err)
            throw err;
        else{
            if(rows.length){
                var inVals = [];
                for(let i=0; i<rows.length; i++){
-
+                   var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
+                   var sample ={
+                       ID: rows[i].idEntrata,
+                       Nome: rows[i].Nome,
+                       Data: data,
+                       Importo: rows[i].Importo,
+                       Categoria: rows[i].Categoria
+                   };
+                   inVals.push(sample);
                }
-               console.log(rows);
+               res.send(inVals);
            }
        }
     });
@@ -121,7 +126,27 @@ app.post('/getEntrate', (req, res)=>{
 });
 
 app.post('/getUscite', (req, res)=>{
-    myDB.query("SELECT * FROM Uscita")
+    myDB.query("SELECT idUscita, Uscita.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Uscita, Categoria WHERE Categoria.idCategoria = Uscita.Categoria", (err, rows) =>{
+        if(err)
+            throw err;
+        else{
+            if(rows.length){
+                var inVals = [];
+                for(let i=0; i<rows.length; i++){
+                    var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
+                    var sample ={
+                        ID: rows[i].idUscita,
+                        Nome: rows[i].Nome,
+                        Data: data,
+                        Importo: rows[i].Importo,
+                        Categoria: rows[i].Categoria
+                    };
+                    inVals.push(sample);
+                }
+                res.send(inVals);
+            }
+        }
+    });
 
 });
 
