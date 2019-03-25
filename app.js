@@ -101,7 +101,7 @@ function reverseString(str) {
 }
 
 app.post('/getEntrate', (req, res)=>{
-    myDB.query("SELECT idEntrata, Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata, Categoria WHERE Categoria.idCategoria = Entrata.Categoria", (err, rows) =>{
+    myDB.query("SELECT ID, Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata, Categoria WHERE Categoria.idCategoria = Entrata.Categoria", (err, rows) =>{
        if(err)
            throw err;
        else{
@@ -110,7 +110,7 @@ app.post('/getEntrate', (req, res)=>{
                for(let i=0; i<rows.length; i++){
                    var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
                    var sample ={
-                       ID: rows[i].idEntrata,
+                       ID: rows[i].ID,
                        Nome: rows[i].Nome,
                        Data: data,
                        Importo: rows[i].Importo,
@@ -126,7 +126,7 @@ app.post('/getEntrate', (req, res)=>{
 });
 
 app.post('/getUscite', (req, res)=>{
-    myDB.query("SELECT idUscita, Uscita.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Uscita, Categoria WHERE Categoria.idCategoria = Uscita.Categoria", (err, rows) =>{
+    myDB.query("SELECT ID, Uscita.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Uscita, Categoria WHERE Categoria.idCategoria = Uscita.Categoria", (err, rows) =>{
         if(err)
             throw err;
         else{
@@ -135,7 +135,7 @@ app.post('/getUscite', (req, res)=>{
                 for(let i=0; i<rows.length; i++){
                     var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
                     var sample ={
-                        ID: rows[i].idUscita,
+                        ID: rows[i].ID,
                         Nome: rows[i].Nome,
                         Data: data,
                         Importo: rows[i].Importo,
@@ -148,6 +148,16 @@ app.post('/getUscite', (req, res)=>{
         }
     });
 
+});
+
+app.post('/delElem', (req, res)=>{
+   myDB.query("DELETE FROM "+req.body.tipo+" WHERE ID="+req.body.ID, (err)=>{
+       if(err)
+           throw err;
+       else
+           res.end();
+
+   })
 });
 
 

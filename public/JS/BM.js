@@ -3,7 +3,6 @@ $(document).ready(function() {
     getData();
     
     $.post('/userExists', (res)=>{
-        console.log("res e'", res.valueOf());
         if(res === "404" ){
             alert("Devi prima inserire i dati dell'utente!");
             $(location).attr("href", "welcome.html");
@@ -56,24 +55,35 @@ function getData() {
 function renderData(IN, OUT) {
     IN.forEach((value, index)=>{
         var tabElem = '<tr>' +
-            '<td>Entrata</td>'+
+            '<td id="type">Entrata</td>'+
             '<td>'+value.Nome+'</td>'+
             '<td>'+value.Data+'</td>'+
             '<td>'+value.Importo+'</td>'+
             '<td>'+value.Categoria+'</td>'+
-            '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"><i class="fa fa-trash"></i></button></td>'+
+            '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
             '</tr>';
         $('.resumeData').append(tabElem);
     });
     OUT.forEach((value, index)=>{
         var tabElem = '<tr>' +
-            '<td>Uscita</td>'+
+            '<td id="type">Uscita</td>'+
             '<td>'+value.Nome+'</td>'+
             '<td>'+value.Data+'</td>'+
             '<td>'+value.Importo+'</td>'+
             '<td>'+value.Categoria+'</td>'+
-            '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"><i class="fa fa-trash"></i></button></td>'+
+            '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
             '</tr>';
         $('.resumeData').append(tabElem);
     })
+}
+
+
+function deltupla(id) {
+    $("#modaldel").trigger('click');
+    $("#safedel-btn").on('click', function () {
+        var typeOF = document.getElementById("type").innerHTML;
+        $.post("/delElem", {tipo: typeOF, ID:id}, ()=>{
+            location.reload();
+        })
+    });
 }
