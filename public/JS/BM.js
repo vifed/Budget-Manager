@@ -1,5 +1,5 @@
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     getData();
     
@@ -68,26 +68,28 @@ function renderIN(IN) {
 }
 
 function renderOUT(res2) {
-    res2.forEach((value, index)=>{
+    res2.forEach((value, index) => {
+        var inputElement = "Uscita";
         var tabElem = '<tr>' +
-            '<td id="type">Uscita</td>'+
-            '<td>'+value.Nome+'</td>'+
-            '<td>'+value.Data+'</td>'+
-            '<td>'+value.Importo+'</td>'+
-            '<td>'+value.Categoria+'</td>'+
-            '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
+            '<td id="type">Uscita</td>' +
+            '<td>' + value.Nome + '</td>' +
+            '<td>' + value.Data + '</td>' +
+            '<td>' + value.Importo + '</td>' +
+            '<td>' + value.Categoria + '</td>' +
+            '<td><button id="' + value.ID + '" type="button" class="btn btn-primary"  onclick="deltupla(this.id, inputElement)"><i class="fa fa-trash"></i></button></td>' +
             '</tr>';
-        $('.resumeData').append(tabElem);
-    })
+        $('.resumeData').append(tabElem).append(inputElement);
+    }
 }
 
 
-function deltupla(id) {
+function deltupla(id, tag) {
     $("#modaldel").trigger('click');
     $("#safedel-btn").on('click', function () {
-        var myid = $("#mytable td").getElementById("type");
-        console.log("mioid" , myid);
-        var typeOF = document.getElementById("type").innerHTML;
+        console.log("id is: ", id, " tag ", tag)
+        // var myid = $("#mytable td").getElementByID("type");
+        // console.log("mioid" , myid);
+        // var typeOF = document.getElementByID("type").innerHTML;
         // $.post("/delElem", {tipo: typeOF, ID:id}, ()=>{
         //     window.location.reload();
         // })
