@@ -109,7 +109,7 @@
                                     <option value="7">Stipendio</option>
                                     <option value="8">Vincita</option>
                                     <option value="9">Donazione</option>
-                                    <option value="6">Altro</option>
+                                    <option value="10">Altro</option>
                                 </select>
                             </div>
                         </div>
@@ -198,36 +198,123 @@
                 <span>Entrate:</span>
                 <div class="card bg-success">
                     <div class="card-body text-center">
-                        <p class="card-text">MAX</p>
-                    </div>
-                </div>
-                <div class="card bg-success">
-                    <div class="card-body text-center">
-                        <p class="card-text">MIN</p>
-                    </div>
-                </div>
-                <div class="card bg-success">
-                    <div class="card-body text-center">
-                        <p class="card-text">AVG</p>
+                        <div class="jumbotron jumbotron-fluid">
+                            <div class="container bg-warning col-md-12">
+                                <div class="card-body row">
+                                    <div class="card" style="width: 30rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Entrata massima</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">Entrata con valore di Importo massimo</h6>
+                                            <table class="table table-bordered table-dark table-striped" >
+                                                <thead>
+                                                <tr>
+                                                    <th>Nome</th>
+                                                    <th>Data</th>
+                                                    <th>Importo</th>
+                                                    <th>Categoria</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="maxtabIn">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card" style="width: 30rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Entrata minima</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">Entrata con valore di Importo minimo</h6>
+                                            <table class="table table-bordered table-dark table-striped" >
+                                                <thead>
+                                                <tr>
+                                                    <th>Nome</th>
+                                                    <th>Data</th>
+                                                    <th>Importo</th>
+                                                    <th>Categoria</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="mintab">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card" style="width: 30rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Valore medio di Entrata</h5>
+                                            <table class="table table-bordered table-dark table-striped" >
+                                                <thead>
+                                                <tr>
+                                                    <th>Importo valore medio</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="avgtab">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <span>Uscite:</span>
                 <div class="card bg-warning">
-                    <div class="card-body text-center">
-                        <p class="card-text">MAX</p>
-                    </div>
-                </div>
-
-                <div class="card bg-warning">
-                    <div class="card-body text-center">
-                        <p class="card-text">MIN</p>
-                    </div>
-                </div>
-                <div class="card bg-warning">
-                    <div class="card-body text-center">
-                        <p class="card-text">AVG</p>
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container bg-warning col-md-12">
+                            <div class="card-body row">
+                                <div class="card" style="width: 30rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Uscita massima</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Uscita con valore di Importo massimo</h6>
+                                        <table class="table table-bordered table-dark table-striped" >
+                                            <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Data</th>
+                                                <th>Importo</th>
+                                                <th>Categoria</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="maxtabOut">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card" style="width: 30rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Uscita minima</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Uscita con valore di Importo minimo</h6>
+                                        <table class="table table-bordered table-dark table-striped" >
+                                            <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Data</th>
+                                                <th>Importo</th>
+                                                <th>Categoria</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="mintab">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card" style="width: 30rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Valore medio di Uscite</h5>
+                                        <table class="table table-bordered table-dark table-striped" >
+                                            <thead>
+                                            <tr>
+                                                <th>Importo valore medio</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="avgtab">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -259,8 +346,6 @@
 
 
 </div>
-
-
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS`Categoria` (
 	`idCategoria` int(9) NOT NULL AUTO_INCREMENT,
 	`Nome` varchar(25) NOT NULL,
 	`Descrizione` TEXT(50) NOT NULL,
+	`Tipo` CHAR(1) NOT NULL,
 	PRIMARY KEY (`idCategoria`)
 );
 
