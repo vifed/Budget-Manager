@@ -1,14 +1,62 @@
-
 $(document).ready(function () {
 
     getData();
-    // getMax();
+    fillOption();
+
+    $.post("/getMaxCatIn", (res)=>{
+        res = JSON.parse(res);
+        var tabElem = '<tr>' +
+            '<td>' + res.Nome + '</td>' +
+            '<td>' + res.Descrizione + '</td>' +
+            '</tr>';
+        $('.maxCatIn').append(tabElem);
+    });
+
+    $.post("/getMinCatIn", (res)=>{
+        res = JSON.parse(res);
+        var tabElem = '<tr>' +
+            '<td>' + res.Nome + '</td>' +
+            '<td>' + res.Descrizione + '</td>' +
+            '</tr>';
+        $('.minCatIn').append(tabElem);
+    });
+
+    $.post("/getMaxCatOut", (res)=>{
+        res = JSON.parse(res);
+        var tabElem = '<tr>' +
+            '<td>' + res.Nome + '</td>' +
+            '<td>' + res.Descrizione + '</td>' +
+            '</tr>';
+        $('.maxCatOut').append(tabElem);
+    });
+
+    $.post("/getMinCatOut", (res)=>{
+        res = JSON.parse(res);
+        var tabElem = '<tr>' +
+            '<td>' + res.Nome + '</td>' +
+            '<td>' + res.Descrizione + '</td>' +
+            '</tr>';
+        $('.minCatOut').append(tabElem);
+    });
     
     $.post('/userExists', (res)=>{
         if(res === "404" ){
             alert("Devi prima inserire i dati dell'utente!");
             $(location).attr("href", "welcome.html");
         }
+    });
+
+    $("#addCat").click(()=>{
+        var newCategory = {
+            Nome: $("#nomeCat").val().trim(),
+            Descrizione: $("#descrizione").val().trim(),
+            Tipo: $("#tipoCat").val().trim(),
+        };
+
+        $.post('/newCat', newCategory, () =>{
+            alert("Categoria aggiunta con successo!");
+            location.reload();
+        });
     });
 
     $("#addIN").click(()=>{
@@ -60,15 +108,32 @@ function getData() {
 
 function renderAll(IN) {
     IN.forEach((value, index)=>{
-        var tipo = (value.Tipo === 'U') ? 'Uscita': 'Entrata';
-        var tabElem = '<tr>' +
-            '<td id="type'+value.ID+'">'+tipo+'</td>'+
-            '<td>'+value.Nome+'</td>'+
-            '<td>'+value.Data+'</td>'+
-            '<td>'+value.Importo+'</td>'+
-            '<td>'+value.Categoria+'</td>'+
-            '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
-            '</tr>';
+        var tipo ="";
+        var tabElem="";
+        switch (value.Tipo) {
+            case 'U':
+                tipo = 'Uscita';
+                tabElem = '<tr>' +
+                    '<td style="color: #D60939" id="type'+value.ID+'">'+tipo+'</td>'+
+                    '<td>'+value.Nome+'</td>'+
+                    '<td>'+value.Data+'</td>'+
+                    '<td>'+value.Importo+'</td>'+
+                    '<td>'+value.Categoria+'</td>'+
+                    '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                    '</tr>';
+                break;
+            case 'E':
+                tipo = 'Entrata';
+                tabElem = '<tr>' +
+                    '<td style="color: #88FF74" id="type'+value.ID+'">'+tipo+'</td>'+
+                    '<td>'+value.Nome+'</td>'+
+                    '<td>'+value.Data+'</td>'+
+                    '<td>'+value.Importo+'</td>'+
+                    '<td>'+value.Categoria+'</td>'+
+                    '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                    '</tr>';
+                break;
+        }
         $('.resumeData').append(tabElem);
     });
 }
@@ -112,6 +177,7 @@ function deltupla(id) {
         })
     });
 }
+
 /** da uscite.html**/
 $.post("/getMaxOut", (res)=>{
     res = JSON.parse(res);
@@ -132,7 +198,7 @@ $.post("/getMinOut", (res)=>{
         '<td>' + res.Importo + '</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
-    $('.mintab').append(tabElem);
+    $('.mintabOut').append(tabElem);
 });
 
 $.post("/getAvgOut", (res)=>{
@@ -140,7 +206,7 @@ $.post("/getAvgOut", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Importo + '</td>' +
         '</tr>';
-    $('.avgtab').append(tabElem);
+    $('.avgtabOut').append(tabElem);
 });
 
 $.post("/getChartOut", (res)=>{
@@ -150,13 +216,13 @@ $.post("/getChartOut", (res)=>{
         myLabels.push(value.Nome);
         myData.push(value.Totale);
     });
-    var ctx = document.getElementById('myChart');
+    var ctx = document.getElementById('myChartOut');
     var myChart = new Chart(ctx, {
-        type: 'horizontalBar',
+        type: 'pie',
         data: {
             labels: myLabels,
             datasets: [{
-                label: 'Valore maggiore',
+                label: 'Valore totale',
                 data: myData,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -178,6 +244,19 @@ $.post("/getChartOut", (res)=>{
             }]
         },
         options: {
+            legend: {
+                labels: {
+                    fontColor: 'black'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 5,
+                    top: 5,
+                    bottom: 0
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -211,7 +290,7 @@ $.post("/getMinIN", (res)=>{
         '<td>' + res.Importo + '</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
-    $('.mintab').append(tabElem);
+    $('.mintabIn').append(tabElem);
 });
 
 $.post("/getAvgIN", (res)=>{
@@ -219,7 +298,7 @@ $.post("/getAvgIN", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Importo + '</td>' +
         '</tr>';
-    $('.avgtab').append(tabElem);
+    $('.avgtabIn').append(tabElem);
 });
 
 $.post("/getChartIN", (res)=>{
@@ -228,16 +307,14 @@ $.post("/getChartIN", (res)=>{
     res.forEach((value, index)=>{
         myLabels.push(value.Nome);
         myData.push(value.Totale);
-        console.log("nome", myLabels[index], " tot ", myData[index]);
     });
-
-    var ctx = document.getElementById('myChart');
+    var ctx = document.getElementById('myChartIn');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: myLabels,
             datasets: [{
-                label: '# of Prezzo',
+                label: 'Valore totale',
                 data: myData,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -259,6 +336,11 @@ $.post("/getChartIN", (res)=>{
             }]
         },
         options: {
+            legend: {
+                labels: {
+                    fontColor: 'black'
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -270,3 +352,47 @@ $.post("/getChartIN", (res)=>{
     });
 });
 /** **/
+
+function fillOption() {
+    $.post("/getOp", (res) =>{
+        res.forEach((value, index) => {
+            switch (value.Tipo) {
+                case 'U':
+                    var tabout = '<tr>' +
+                        '<td>'+value.ID+'</td>' +
+                        '<td>'+value.Nome+'</td>' +
+                        '<td>'+value.Descrizione+'</td>' +
+                        '<td>Uscita</td>' +
+                        '<td><button id="'+value.ID+'" type="button" class="btn btn-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                        '</tr>';
+                    $(".catOut").append(tabout);
+                    var listCatOut ='<option value="'+value.ID+'">'+value.Nome+'</option>';
+                    $("#categoryOut").append(listCatOut);
+                    break;
+
+                case 'E':
+                    var tabEle = '<tr>' +
+                        '<td>'+value.ID+'</td>' +
+                        '<td>'+value.Nome+'</td>' +
+                        '<td>'+value.Descrizione+'</td>' +
+                        '<td>Entrata</td>' +
+                        '<td><button id="'+value.ID+'" type="button" class="btn btn-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                        '</tr>';
+                    $(".catIn").append(tabEle);
+                    var listCatIn ='<option value="'+value.ID+'">'+value.Nome+'</option>';
+                    $("#categoryIn").append(listCatIn);
+                    break;
+            }
+        })
+    })
+}
+
+function delCat(id) {
+    var typeOp="";
+    $("#modaldel").trigger('click');
+    $("#safedel-btn").on('click', function () {
+        $.post("/delElem", {tipo: 'Categoria', ID:id}, ()=>{
+            window.location.reload();
+        })
+    });
+}

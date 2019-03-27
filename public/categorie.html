@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorie - Budget Manager</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/BM.css">
+
+</head>
+<body>
+<div class="container row">
+    <nav class="navbar navbar-expand navbar-dark fixed-top justify-content-center">
+        <ul class="nav nav-tabs nav-dark nav-fill" style="color: white">
+            <li class="nav-item">
+                <a class="nav-link " href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="entrate.html">Entrate</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="uscite.html">Uscite</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="categorie.html">Categorie</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid col-md-8" style="margin-top:80px">
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalIn">
+            Aggiungi Categoria
+        </button>&nbsp;
+        <!--<button  type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModalOut">-->
+        <!--Aggiungi Uscita-->
+        <!--</button>-->
+        <br><br>
+        <h4>Categorie per le Uscite:</h4>
+        <div class="table-responsive-sm">
+            <table class="table table-bordered table-dark table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Tipo</th>
+                    <th>Elimina</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Tipo</th>
+                    <th>Elimina</th>
+                </tr>
+                </tfoot>
+                <tbody class="catOut">
+
+                </tbody>
+            </table>
+        </div>
+        <h4>Categorie per le Entrate:</h4>
+        <div class="table-responsive-sm">
+            <table class="table table-bordered table-dark table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Tipo</th>
+                    <th>Elimina</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Tipo</th>
+                    <th>Elimina</th>
+                </tr>
+                </tfoot>
+                <tbody class="catIn">
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal for In operation-->
+        <div class="modal fade" id="myModalIn" style="background-color: #137547">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Inserisci i dettagli del tuo movimento in Entrata</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend col-10">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="nomeCat">Nome Categoria</label>
+                                    </div>
+                                    <input type="text" class="form-control border border-info" id="nomeCat"
+                                           placeholder="Casa, Viaggi, Stipendio...">
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-4 col-10">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="descrizione">Descrizione</label>
+                                </div>
+                                <textarea class="form-control" placeholder="Descrizione..." id="descrizione"></textarea>
+                            </div>
+                            <div class="input-group mb-4 col-10">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="tipoCat">Tipo</label>
+                                    <select id="tipoCat">
+                                        <option value="E">Entrata</option>
+                                        <option value="U">Uscita</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="addCat" type="button" class="btn btn-success" data-dismiss="modal">Salva</button>
+                        <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid col-md-4" style="margin-top:80px">
+        <div class=" col">
+            <div class=" col-12">
+                <div class="card" style="width: 30rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Categorie per Entrata</h5>
+                        <p>
+                        <p>Categoria più usata</p>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrizione</th>
+                            </tr>
+                            </thead>
+                            <tbody class="maxCatIn">
+
+                            </tbody>
+                        </table>
+                        </p>
+                        <p>
+                        <p>Categoria meno usata</p>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrizione</th>
+                            </tr>
+                            </thead>
+                            <tbody class="minCatIn">
+
+                            </tbody>
+                        </table>
+                        </p>
+                        <p> chart categorie ??</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 30rem;">
+                    <div class="card-body">
+                        <div class="card-body">
+                            <h5 class="card-title">Categorie per Uscita</h5>
+                            <p>
+                            <p>Categoria più usata</p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrizione</th>
+                                </tr>
+                                </thead>
+                                <tbody class="maxCatOut">
+
+                                </tbody>
+                            </table>
+                            </p>
+                            <p>
+                            <p>Categoria meno usata</p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrizione</th>
+                                </tr>
+                                </thead>
+                                <tbody class="minCatOut">
+
+                                </tbody>
+                            </table>
+                            </p>
+                            <p> chart categorie ??</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" hidden>
+        <a id="modaldel" class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal">Elimina Categoria
+            selezionata</a>
+    </div>
+    <!-- Delete Modal-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vuoi eliminare la categoria selezionata ?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="button" data-dismiss="modal">Annulla</button>
+                    <button class="btn btn-danger" id="safedel-btn">Elimina</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="JS/BM.js"></script>
+</body>
+</html>

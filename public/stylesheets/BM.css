@@ -1,11 +1,20 @@
 body,html {
     font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
-    background-color: #595F72;
+    background-color: #454B52;
     /*background-color: #137547;*/
 }
 
+.nav{
+    background-color: #5F7185;
+    border-color: #454752;
+    border-radius: 3.5rem;
+}
+
+.nav-link{
+    color: #FFFFFF;
+}
+
 .modal-header h3 {
-    color: #E89005;
     font-size: x-large;
     font-style: italic;
     font-weight: bold;
