@@ -286,7 +286,6 @@ app.post('/getMinCatIn', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                console.log(" min cat: ", rows);
                 var sample = {
                     Nome: rows[0].Nome,
                     Descrizione: rows[0].Descrizione,
@@ -325,7 +324,6 @@ app.post('/getMinCatOut', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                console.log(" min cat: ", rows);
                 var sample = {
                     Nome: rows[0].Nome,
                     Descrizione: rows[0].Descrizione,
@@ -490,7 +488,6 @@ app.post('/getChartIN', (req, res)=>{
                            Nome: rows[i].Nome,
                            Totale: rows[i].TOT_Entrata
                        };
-                       console.log(sample);
                        resultVal.push(sample);
                    }
                    res.send(resultVal).end();

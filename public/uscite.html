@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">-->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
     <link href="stylesheets/BM.css" rel="stylesheet">
 
 </head>
@@ -31,21 +33,29 @@
     </nav>
     <div class="ccontainer-fluid col-md-8" style="margin-top:80px">
         <!-- Button to Open the Modal -->
-        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModalOut">
+        <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModalOut">
             Aggiungi Uscite
         </button>
         <br><br>
-        <h4>Ecco il riepilogo delle tutte le tue Uscite:</h4>
-        <div class="table-responsive-sm">
-            <table class="table table-bordered table-dark table-striped" id="tableOut">
+        <h4 style="color: #fffff0" >Ecco il riepilogo di tutte le tue Uscite:</h4>
+        <div class="table-responsive-sm text-center">
+            <table class="table table-sm table-borderless" id="tableOut" data-toggle="table"
+                   data-sort-name="stargazers_count"
+                   data-sort-order="desc" cellspacing="1" width="100%">
                 <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Nome</th>
-                    <th>Data</th>
-                    <th>Importo</th>
-                    <th>Categoria</th>
-                    <th>Elimina</th>
+                <tr style="color: black">
+                    <th data-field="Tipo"
+                        data-sortable="false" >Tipo</th>
+                    <th data-field="Nome"
+                        data-sortable="true" class="th-sm">Nome</th>
+                    <th data-field="Data"
+                        data-sortable="true" class="th-sm">Data</th>
+                    <th data-field="Importo"
+                        data-sortable="true" class="th-sm">Importo</th>
+                    <th data-field="Categoria"
+                        data-sortable="true" class="th-sm">Categoria</th>
+                    <th data-field="Elimina"
+                        data-sortable="false" >Elimina</th>
                 </tr>
                 </thead>
                 <tbody class="datiOut">
@@ -54,10 +64,75 @@
         </div>
 
     </div>
+    <div class="container-fluid col-md-4" style="margin-top:80px">
+        <div class="col text-center">
+            <div class=" col-12">
+                <div class="card" style="width: 30rem;">
+                    <div class="card-body row">
+                        <table class="table table-striped">
+                            <thead>
+                                <blockquote class="blockquote text-center">
+                                    <p class="mb-0">Uscita MASSIMA.</p>
+                                    <footer class="blockquote-footer">Uscita con valore più alto</footer>
+                                </blockquote>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Data</th>
+                                <th>Importo</th>
+                                <th>Categoria</th>
+                            </tr>
+                            </thead>
+                            <tbody class="maxtabOut">
+
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <thead>
+                            <blockquote class="blockquote text-center">
+                                <p class="mb-0">Uscita MINIMA.</p>
+                                <footer class="blockquote-footer">Uscita con valore più basso</footer>
+                            </blockquote>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Data</th>
+                                <th>Importo</th>
+                                <th>Categoria</th>
+                            </tr>
+                            </thead>
+                            <tbody class="mintabOut">
+
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <thead>
+                            <blockquote class="blockquote text-center">
+                                <p class="mb-0">Uscita MEDIA.</p>
+                            </blockquote>
+                            <tr>
+                                <th>Importo valore medio</th>
+                            </tr>
+                            </thead>
+                            <tbody class="avgtabOut">
+
+                            </tbody>
+                        </table>
+                        <p>
+                        <div class="col-12">
+                            <blockquote class="blockquote text-center">
+                        <p class="mb-0">Riepilogo per Categoria.</p>
+                        <footer class="blockquote-footer">Somma delle Uscite per ogni Categoria</footer>
+                        </blockquote>
+                            <canvas id="myChartOut" style="background-color: white;"></canvas>
+                    </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal Out operation -->
-    <div class="modal fade" id="myModalOut" style="background-color: red">
+    <div class="modal fade background" id="myModalOut">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content addOutModal">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
@@ -102,131 +177,17 @@
                                 <option selected>Scegli...</option>
                             </select>
                         </div>
-
                     </div>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button id="addOUT" type="button" class="btn btn-success" data-dismiss="modal">Salva</button>
+                    <button id="addOUT" type="button" class="btn btn-outline-success" data-dismiss="modal">Salva</button>
                     <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
                 </div>
 
             </div>
         </div>
-    </div>
-    <div class="container-fluid col-md-4" style="margin-top:80px">
-        <div class=" col">
-            <div class=" col-12">
-                <div class="card" style="width: 30rem;">
-                <div class="card-body row">
-                    <h5 class="card-title">Uscita massima</h5>
-                    <p>
-                    <h6 class="card-subtitle mb-2 text-muted">Uscita con valore di Importo più alto</h6>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Data</th>
-                            <th>Importo</th>
-                            <th>Categoria</th>
-                        </tr>
-                        </thead>
-                        <tbody class="maxtabOut">
-
-                        </tbody>
-                    </table>
-                    </p><br>
-                    <p>
-                    <h5>Uscita minima</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Uscita con valore di Importo più basso</h6>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Data</th>
-                            <th>Importo</th>
-                            <th>Categoria</th>
-                        </tr>
-                        </thead>
-                        <tbody class="mintabOut">
-
-                        </tbody>
-                    </table>
-                    </p><br>
-                    <p>
-                    <h5>Valore medio di Uscite</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Valore medio delle tue Uscite</h6>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Importo valore medio</th>
-                        </tr>
-                        </thead>
-                        <tbody class="avgtabOut">
-
-                        </tbody>
-                    </table>
-                    </p>
-                    <p>
-                    <div class="col-12">
-                        <canvas id="myChartOut" width="350" height="350" style="background-color: #5F7185;"></canvas>
-                    </div>
-                    </p>
-                    <!--<div class="card" style="width: 30rem;">-->
-                    <!--<div class="card-body">-->
-                    <!--<h5 class="card-title">Uscita massima</h5>-->
-                    <!--<h6 class="card-subtitle mb-2 text-muted">Uscita con valore di Importo massimo</h6>-->
-                    <!--<table class="table table-bordered table-dark table-striped" >-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                    <!--<th>Nome</th>-->
-                    <!--<th>Data</th>-->
-                    <!--<th>Importo</th>-->
-                    <!--<th>Categoria</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody class="maxtabOut">-->
-                    <!--</tbody>-->
-                    <!--</table>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="card" style="width: 30rem;">-->
-                    <!--<div class="card-body">-->
-                    <!--<h5 class="card-title">Uscita minima</h5>-->
-                    <!--<h6 class="card-subtitle mb-2 text-muted">Uscita con valore di Importo minimo</h6>-->
-                    <!--<table class="table table-bordered table-dark table-striped" >-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                    <!--<th>Nome</th>-->
-                    <!--<th>Data</th>-->
-                    <!--<th>Importo</th>-->
-                    <!--<th>Categoria</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody class="mintabOut">-->
-                    <!--</tbody>-->
-                    <!--</table>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="card" style="width: 30rem;">-->
-                    <!--<div class="card-body">-->
-                    <!--<h5 class="card-title">Valore medio di Uscite</h5>-->
-                    <!--<table class="table table-bordered table-dark table-striped" >-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                    <!--<th>Importo valore medio</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody class="avgtabOut">-->
-                    <!--</tbody>-->
-                    <!--</table>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" hidden>
@@ -244,8 +205,8 @@
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" type="button" data-dismiss="modal">Annulla</button>
-                    <button class="btn btn-danger" id="safedel-btn">Elimina</button>
+                    <button class="btn btn-outline-success" type="button" data-dismiss="modal">Annulla</button>
+                    <button class="btn btn-outline-danger" id="safedel-btn">Elimina</button>
                 </div>
             </div>
         </div>
@@ -253,17 +214,19 @@
 
 
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
-<script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-<script src="JS/BM.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+    <script src="JS/BM.js"></script>
 </body>
 </html>

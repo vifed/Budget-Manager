@@ -117,9 +117,9 @@ function renderAll(IN) {
                     '<td style="color: #D60939" id="type'+value.ID+'">'+tipo+'</td>'+
                     '<td>'+value.Nome+'</td>'+
                     '<td>'+value.Data+'</td>'+
-                    '<td>'+value.Importo+'</td>'+
+                    '<td>'+value.Importo+' €</td>'+
                     '<td>'+value.Categoria+'</td>'+
-                    '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                    '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
                     '</tr>';
                 break;
             case 'E':
@@ -128,9 +128,9 @@ function renderAll(IN) {
                     '<td style="color: #88FF74" id="type'+value.ID+'">'+tipo+'</td>'+
                     '<td>'+value.Nome+'</td>'+
                     '<td>'+value.Data+'</td>'+
-                    '<td>'+value.Importo+'</td>'+
+                    '<td>'+value.Importo+' €</td>'+
                     '<td>'+value.Categoria+'</td>'+
-                    '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                    '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
                     '</tr>';
                 break;
         }
@@ -139,40 +139,101 @@ function renderAll(IN) {
 }
 
 function renderIN(res2) {
+
+    var input=[];
     res2.forEach((value, index) => {
-        var tabElem = '<tr>' +
-            '<td id="type'+value.ID+'">Entrata</td>' +
-            '<td>' + value.Nome + '</td>' +
-            '<td>' + value.Data + '</td>' +
-            '<td>' + value.Importo + '</td>' +
-            '<td>' + value.Categoria + '</td>' +
-            '<td><button id="'+ value.ID +'" type="button" class="btn btn-danger"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>' +
-            '</tr>';
-        $('.datiIn').append(tabElem);
-    })
+        var sample ={
+            "Tipo": "Entrata",
+            "Nome": value.Nome,
+            "Data": value.Data,
+            "Importo": value.Importo +" €",
+            "Categoria":value.Categoria,
+            "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delIn(this.id)"><i class="fa fa-trash"></i></button>'
+        };
+        input.push(sample);
+    });
+    var table = $('#tableIn').DataTable( {
+        "data":input,
+        "columns": [
+            { "data": "Tipo" },
+            { "data": "Nome" },
+            { "data": "Data" },
+            { "data": "Importo" },
+            { "data": "Categoria" },
+            { "data": "Elimina" }
+        ],
+        "pagingType": "simple",
+        "language": {
+            "sProcessing":    "Caricamento...",
+            "sSearch":        "Cerca:",
+            "sInfoEmpty":     " ",
+            "oPaginate": {
+                "sFirst":    "Primo",
+                "sLast":    "Ultimo",
+                "sNext":    "Successivo",
+                "sPrevious": "Precedente"
+            },
+        }
+    } );
 }
 
 function renderOUT(res2) {
+    var input=[];
     res2.forEach((value, index) => {
-        var tabElem = '<tr>' +
-            '<td id="type'+value.ID+'">Uscita</td>' +
-            '<td>' + value.Nome + '</td>' +
-            '<td>' + value.Data + '</td>' +
-            '<td>' + value.Importo + '</td>' +
-            '<td>' + value.Categoria + '</td>' +
-            '<td><button id="'+value.ID+'" type="button" class="btn btn-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>' +
-            '</tr>';
-        $('.datiOut').append(tabElem);
-    })
+        var sample ={
+                "Tipo": "Uscita",
+                "Nome": value.Nome,
+                "Data": value.Data,
+                "Importo": value.Importo +" €",
+                "Categoria":value.Categoria,
+                "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
+            };
+        input.push(sample);
+    });
+    var table = $('#tableOut').DataTable( {
+        "data":input,
+        "columns": [
+            { "data": "Tipo" },
+            { "data": "Nome" },
+            { "data": "Data" },
+            { "data": "Importo" },
+            { "data": "Categoria" },
+            { "data": "Elimina" }
+        ],
+        "pagingType": "simple",
+        "language": {
+            "sProcessing":    "Caricamento...",
+            "sSearch":        "Cerca:",
+            "sInfoEmpty":     " ",
+            "oPaginate": {
+                "sFirst":    "Primo",
+                "sLast":    "Ultimo",
+                "sNext":    "Successivo",
+                "sPrevious": "Precedente"
+            },
+        }
+    } );
+    // $('.dataTables_length').addClass('bs-select');
 }
 
 
-function deltupla(id) {
+function delOut(id) {
     var typeOp="";
     $("#modaldel").trigger('click');
     $("#safedel-btn").on('click', function () {
-        typeOp = document.getElementById("type"+id).innerHTML;
-        $.post("/delElem", {tipo: typeOp, ID:id}, ()=>{
+        console.log(" del tupla : ", typeOp, id);
+        $.post("/delElem", {tipo: "Uscita", ID:id}, ()=>{
+            window.location.reload();
+        })
+    });
+}
+
+function delIn(id) {
+    var typeOp="";
+    $("#modaldel").trigger('click');
+    $("#safedel-btn").on('click', function () {
+        console.log(" del tupla : ", typeOp, id);
+        $.post("/delElem", {tipo: "Entrata", ID:id}, ()=>{
             window.location.reload();
         })
     });
@@ -184,7 +245,7 @@ $.post("/getMaxOut", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + '</td>' +
+        '<td>' + res.Importo + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.maxtabOut').append(tabElem);
@@ -195,7 +256,7 @@ $.post("/getMinOut", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + '</td>' +
+        '<td>' + res.Importo + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.mintabOut').append(tabElem);
@@ -204,7 +265,7 @@ $.post("/getMinOut", (res)=>{
 $.post("/getAvgOut", (res)=>{
     res = JSON.parse(res);
     var tabElem = '<tr>' +
-        '<td>' + res.Importo + '</td>' +
+        '<td>' + res.Importo + ' €</td>' +
         '</tr>';
     $('.avgtabOut').append(tabElem);
 });
@@ -225,20 +286,18 @@ $.post("/getChartOut", (res)=>{
                 label: 'Valore totale',
                 data: myData,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
                 ],
                 borderWidth: 3
             }]
@@ -276,7 +335,7 @@ $.post("/getMaxIN", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + '</td>' +
+        '<td>' + res.Importo + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.maxtabIn').append(tabElem);
@@ -287,7 +346,7 @@ $.post("/getMinIN", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + '</td>' +
+        '<td>' + res.Importo + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.mintabIn').append(tabElem);
@@ -296,7 +355,7 @@ $.post("/getMinIN", (res)=>{
 $.post("/getAvgIN", (res)=>{
     res = JSON.parse(res);
     var tabElem = '<tr>' +
-        '<td>' + res.Importo + '</td>' +
+        '<td>' + res.Importo + ' €</td>' +
         '</tr>';
     $('.avgtabIn').append(tabElem);
 });
@@ -310,27 +369,25 @@ $.post("/getChartIN", (res)=>{
     });
     var ctx = document.getElementById('myChartIn');
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'doughnut',
         data: {
             labels: myLabels,
             datasets: [{
                 label: 'Valore totale',
                 data: myData,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
                 ],
                 borderWidth: 3
             }]
@@ -363,7 +420,7 @@ function fillOption() {
                         '<td>'+value.Nome+'</td>' +
                         '<td>'+value.Descrizione+'</td>' +
                         '<td>Uscita</td>' +
-                        '<td><button id="'+value.ID+'" type="button" class="btn btn-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                        '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
                         '</tr>';
                     $(".catOut").append(tabout);
                     var listCatOut ='<option value="'+value.ID+'">'+value.Nome+'</option>';
@@ -376,7 +433,7 @@ function fillOption() {
                         '<td>'+value.Nome+'</td>' +
                         '<td>'+value.Descrizione+'</td>' +
                         '<td>Entrata</td>' +
-                        '<td><button id="'+value.ID+'" type="button" class="btn btn-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                        '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
                         '</tr>';
                     $(".catIn").append(tabEle);
                     var listCatIn ='<option value="'+value.ID+'">'+value.Nome+'</option>';

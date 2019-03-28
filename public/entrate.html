@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrate - Budget Manager</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"  media="screen">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">-->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
     <link href="stylesheets/BM.css" rel="stylesheet">
 
 </head>
@@ -28,149 +31,158 @@
             </li>
         </ul>
     </nav>
-    <div class="container-fluid col-md-8" style="margin-top:80px">
+    <div class="ccontainer-fluid col-md-8" style="margin-top:80px">
         <!-- Button to Open the Modal -->
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalIn">
+        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#myModalIn">
             Aggiungi Entrata
         </button>
         <br><br>
-        <h4>Ecco il riepilogo di tutte le tue Entrate:</h4>
-        <div class="table-responsive-sm">
-            <table class="table table-bordered table-dark table-striped" id="tableIn">
+        <h4 style="color: #fffff0" >Ecco il riepilogo di tutte le tue Entrate:</h4>
+        <div class="table-responsive-sm text-center">
+            <table class="table table-sm table-borderless" id="tableIn" data-toggle="table"
+                   data-sort-name="stargazers_count"
+                   data-sort-order="desc" cellspacing="1" width="100%">
                 <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Nome</th>
-                    <th>Data</th>
-                    <th>Importo</th>
-                    <th>Categoria</th>
-                    <th>Elimina</th>
+                <tr style="color: black">
+                    <th data-field="Tipo"
+                        data-sortable="false" >Tipo</th>
+                    <th data-field="Nome"
+                        data-sortable="true" class="th-sm">Nome</th>
+                    <th data-field="Data"
+                        data-sortable="true" class="th-sm">Data</th>
+                    <th data-field="Importo"
+                        data-sortable="true" class="th-sm">Importo</th>
+                    <th data-field="Categoria"
+                        data-sortable="true" class="th-sm">Categoria</th>
+                    <th data-field="Elimina"
+                        data-sortable="false" >Elimina</th>
                 </tr>
                 </thead>
                 <tbody class="datiIn">
-
                 </tbody>
             </table>
         </div>
 
-        <!-- Modal for In operation-->
-        <div class="modal fade" id="myModalIn">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+    </div>
+    <div class="container-fluid col-md-4" style="margin-top:80px">
+        <div class="col text-center">
+            <div class=" col-12">
+                <div class="card" style="width: 30rem;">
+                    <div class="card-body row">
+                        <table class="table table-striped">
+                            <thead>
+                                <blockquote class="blockquote text-center">
+                                    <p class="mb-0">Entrata MASSIMA.</p>
+                                    <footer class="blockquote-footer">Entrata con valore più alto</footer>
+                                </blockquote>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Data</th>
+                                <th>Importo</th>
+                                <th>Categoria</th>
+                            </tr>
+                            </thead>
+                            <tbody class="maxtabIn">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Inserisci i dettagli del tuo movimento in Entrata</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <thead>
+                                <blockquote class="blockquote text-center">
+                                    <p class="mb-0">Entrata MINIMA.</p>
+                                    <footer class="blockquote-footer">Entrata con valore più basso</footer>
+                                </blockquote>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Data</th>
+                                <th>Importo</th>
+                                <th>Categoria</th>
+                            </tr>
+                            </thead>
+                            <tbody class="mintabIn">
 
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <div class="input-group mb-4">
-                                <div class="input-group-prepend col-10">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="nomeIn">Nome Entrata</label>
-                                    </div>
-                                    <input type="text" class="form-control border border-info" id="nomeIn" placeholder="Paga, Compleanno ...">
-                                </div>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <thead>
+                                <blockquote class="blockquote text-center">
+                                    <p class="mb-0">Entrata MEDIA.</p>
+                                </blockquote>
+                            <tr>
+                                <th>Importo valore medio</th>
+                            </tr>
+                            </thead>
+                            <tbody class="avgtabIn">
+
+                            </tbody>
+                        </table>
+                        <p>
+                            <div class="col-12">
+                                <blockquote class="blockquote text-center">
+                                <p class="mb-0">Riepilogo per Categoria.</p>
+                                <footer class="blockquote-footer">Somma delle Entrate per ogni Categoria</footer>
+                                </blockquote>
+                                <canvas id="myChartIn" style="background-color: white;"></canvas>
                             </div>
-                            <div class="input-group mb-4">
-                                <div class="input-group-prepend col-10">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="dataIn">Data</label>
-                                    </div>
-                                    <input class="form-control" type="date" value="" id="dataIn">
-                                </div>
-                            </div>
-                            <div class="input-group mb-4 col-10">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="importIn">Importo</label>
-                                </div>
-                                <input class="form-control" type="number" placeholder="35.00" id="importIn">
-                            </div>
-                            <div class="input-group mb-4 col-10">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="categoryIn">Categoria</label>
-                                </div>
-                                <select class="custom-select" id="categoryIn">
-                                    <option selected>Scegli...</option>
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button id="addIN" type="button" class="btn btn-success" data-dismiss="modal">Salva</button>
-                        <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
-                    </div>
-
+                        </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid col-md-4" style="margin-top:80px">
-        <div class="jumbotron-fluid">
-            <div class="container bg-success col-md-12">
-                <div class="card-body row">
-                    <div class="card" style="width: 30rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Entrata massima</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Entrata con valore di Importo massimo</h6>
-                            <table class="table table-bordered table-dark table-striped" >
-                                <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Data</th>
-                                    <th>Importo</th>
-                                    <th>Categoria</th>
-                                </tr>
-                                </thead>
-                                <tbody class="maxtabIn">
-                                </tbody>
-                            </table>
+
+    <!-- Modal for In operation-->
+    <div class="modal fade background" id="myModalIn">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content addInModal">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Inserisci i dettagli del tuo movimento in Entrata</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend col-10">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="nomeIn">Nome Entrata</label>
+                                </div>
+                                <input type="text" class="form-control border border-info" id="nomeIn" placeholder="Paga, Compleanno ...">
+                            </div>
                         </div>
-                    </div>
-                    <div class="card" style="width: 30rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Entrata minima</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Entrata con valore di Importo minimo</h6>
-                            <table class="table table-bordered table-dark table-striped" >
-                                <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Data</th>
-                                    <th>Importo</th>
-                                    <th>Categoria</th>
-                                </tr>
-                                </thead>
-                                <tbody class="mintabIn">
-                                </tbody>
-                            </table>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend col-10">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="dataIn">Data</label>
+                                </div>
+                                <input class="form-control" type="date" value="" id="dataIn">
+                            </div>
                         </div>
-                    </div>
-                    <div class="card" style="width: 30rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Valore medio di Entrata</h5>
-                            <table class="table table-bordered table-dark table-striped" >
-                                <thead>
-                                <tr>
-                                    <th>Importo valore medio</th>
-                                </tr>
-                                </thead>
-                                <tbody class="avgtabIn">
-                                </tbody>
-                            </table>
+                        <div class="input-group mb-4 col-10">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="importIn">Importo</label>
+                            </div>
+                            <input class="form-control" type="number" placeholder="35.00" id="importIn">
+                        </div>
+                        <div class="input-group mb-4 col-10">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="categoryIn">Categoria</label>
+                            </div>
+                            <select class="custom-select" id="categoryIn">
+                                <option selected>Scegli...</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <canvas id="myChartIn" width="400" height="400" style="background-color: #5F7185"></canvas>
 
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="addIN" type="button" class="btn btn-outline-success" data-dismiss="modal">Salva</button>
+                    <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -195,8 +207,8 @@
         </div>
     </div>
 
-
 </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -208,7 +220,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="JS/BM.js"></script>
+
 </body>
 </html>

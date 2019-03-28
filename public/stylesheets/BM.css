@@ -1,7 +1,11 @@
 body,html {
-    font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
-    background-color: #454B52;
-    /*background-color: #137547;*/
+    font-family: "Segoe UI", Arial, sans-serif;
+    padding: 10px;
+    background: url('../images/bck3.jpg') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;:
 }
 
 .nav{
@@ -43,4 +47,80 @@ body,html {
 
 }
 
-/*     background-color: #587291; */
+blockquote{
+    max-width:390px;
+    color: #5c4c40;
+    text-align: center;
+    border-left: 3px solid #897860;
+    padding-left: 5px;
+    margin:0 auto;
+    width:auto;
+    display:table
+}
+
+.addOutModal{
+    max-width:400px;
+    text-align: center;
+    padding-left: 5px;
+    margin:0 auto;
+    width:auto;
+    display:table
+}
+
+.addInModal{
+    max-width:400px;
+    text-align: center;
+    padding-left: 5px;
+    margin:0 auto;
+    width:auto;
+    display:table
+}
+
+.addInModalOp{
+    max-width:400px;
+    text-align: center;
+    padding-left: 5px;
+    margin:0 auto;
+    width:auto;
+    display:table
+}
+
+div.background {
+    border: 2px solid black;
+}
+
+#tableOut_wrapper {
+    background-color: #5F7185;
+    border-radius: 0.5rem;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+
+#tableIn_wrapper {
+    background-color: #5F7185;
+    border-radius: 0.5rem;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    color: black;
+
+}
+
+.dataTables_info {
+    display: none;
+}
+
+.dataTables_length{
+    display: none;
+}
+
+.dataTables_paginate{
+    color: black;
+}
+
+#tableOut_filter{
+    color: black;
+}
+
+#tableIn_filter{
+    color: black;
+}

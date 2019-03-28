@@ -1,7 +1,7 @@
 body,html {
     font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
     padding: 10px;
-    background: url('../images/background.jpeg') no-repeat center center fixed;
+    background: url('../images/bck3.jpg') no-repeat center center fixed;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -9,25 +9,20 @@ body,html {
 }
 
 .container {
-    margin: 5% auto 0;
+    margin: 1% auto 0;
     width: 64%;
     height: 5%;
     border-radius: 0.8em;
     border: none;
-    opacity: 0.97;
-}
-
-.logo img {
-    width: 150px;
-    height: 150px;
+    opacity: 0.85;
 }
 
 .modal-header h3 {
-    color: #F6AE2D;
+    color: #2a4ec6;
     font-size: x-large;
     font-style: italic;
     font-weight: bold;
-    position: center;
+    text-align: center;
 }
 
 .NoUser label{
@@ -35,12 +30,12 @@ body,html {
 }
 
 .modal-dialog {
-    margin-top: 5%;
-    margin-bottom: auto;
+    margin-top: 2%;
+    margin-bottom: 0;
 }
 
 .NoUser p {
-    color: #3C6E71;
+    color: #000000;
 }
 
 .modal-header p {
@@ -53,4 +48,6 @@ body,html {
 
 }
 
-/*     background-color: #587291; */
+.modal-header p {
+    color: #000000;
+}

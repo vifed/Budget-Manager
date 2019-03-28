@@ -18,9 +18,10 @@
                         <div  class="col-12">
                             <h3>Benvenuti su Budget Manager!</h3>
                         </div>
-                        <div  class="col-10">
+                        <div class="col-10 welcomeDescr">
                             <p>Questo tool ti permetterà di gestire le tue spese.<br>
-                                Inserisci le tue Entrate e le tue Uscite per monitorare le tue spese...
+                                Inserisci le tue Entrate e le tue Uscite e potrai verificare le spese massime e minime da te effettuate ed
+                                un riepilogo degli stessi...
                             </p>
                         </div>
                     </div>
@@ -51,7 +52,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="saveBtn">Salva</button>
+                    <button type="button" class="btn btn-outline-success" id="saveBtn">Salva</button>
                 </div>
             </div>
         </div>
@@ -70,11 +71,10 @@
             crossorigin="anonymous"></script>
     <script>
 
-        $.post('/userExists', (res)=>{
-            console.log("html res is", res);
-            if(res === "200")
-                $(location).attr("href", "dashboard.html");
-        });
+         // $.post('/userExists', (res)=>{
+         //     if(res === "200")
+         //         $(location).attr("href", "dashboard.html");
+         // });
 
         $("#saveBtn").click(function () {
             let userInput = {
