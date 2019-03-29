@@ -1,7 +1,8 @@
 $(document).ready(function () {
 
     getData();
-    fillOption();
+    fillOpOut();
+    fillOpIn();
 
     $.post("/getMaxCatIn", (res)=>{
         res = JSON.parse(res);
@@ -107,39 +108,68 @@ function getData() {
 }
 
 function renderAll(IN) {
+    var input=[];
+    // res2.forEach((value, index) => {
+    //     var sample ={
+    //         "Tipo": "Entrata",
+    //         "Nome": value.Nome,
+    //         "Data": value.Data,
+    //         "Importo": value.Importo +" €",
+    //         "Categoria":value.Categoria,
+    //         "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delIn(this.id)"><i class="fa fa-trash"></i></button>'
+    //     };
+    //     input.push(sample);
+    // });
     IN.forEach((value, index)=>{
-        var tipo ="";
-        var tabElem="";
-        switch (value.Tipo) {
-            case 'U':
-                tipo = 'Uscita';
-                tabElem = '<tr>' +
-                    '<td style="color: #D60939" id="type'+value.ID+'">'+tipo+'</td>'+
-                    '<td>'+value.Nome+'</td>'+
-                    '<td>'+value.Data+'</td>'+
-                    '<td>'+value.Importo+' €</td>'+
-                    '<td>'+value.Categoria+'</td>'+
-                    '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
-                    '</tr>';
-                break;
-            case 'E':
-                tipo = 'Entrata';
-                tabElem = '<tr>' +
-                    '<td style="color: #88FF74" id="type'+value.ID+'">'+tipo+'</td>'+
-                    '<td>'+value.Nome+'</td>'+
-                    '<td>'+value.Data+'</td>'+
-                    '<td>'+value.Importo+' €</td>'+
-                    '<td>'+value.Categoria+'</td>'+
-                    '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="deltupla(this.id)"><i class="fa fa-trash"></i></button></td>'+
-                    '</tr>';
-                break;
+        var sample="";
+        if (value.Tipo === 'E') {
+            sample = {
+                "Tipo": "Entrata",
+                "Nome": value.Nome,
+                "Data": value.Data,
+                "Importo": value.Importo + " €",
+                "Categoria": value.Categoria,
+                "Elimina": '<button id="' + value.ID + '" type="button" class="btn btn-outline-primary"  onclick="delIn(this.id)"><i class="fa fa-trash"></i></button>'
+            };
         }
-        $('.resumeData').append(tabElem);
-    });
+        else{
+            sample ={
+                "Tipo": "Uscita",
+                "Nome": value.Nome,
+                "Data": value.Data,
+                "Importo": value.Importo +" €",
+                "Categoria":value.Categoria,
+                "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
+            };
+        }
+        input.push(sample);
+   });
+    var table = $('#mytable').DataTable( {
+        "data":input,
+        "columns": [
+            { "data": "Tipo" },
+            { "data": "Nome" },
+            { "data": "Data" },
+            { "data": "Importo" },
+            { "data": "Categoria" },
+            { "data": "Elimina" }
+        ],
+        "pagingType": "simple",
+        "language": {
+            "sProcessing":    "Caricamento...",
+            "sSearch":        "Cerca:",
+            "sInfoEmpty":     " ",
+            "oPaginate": {
+                "sFirst":    "Primo",
+                "sLast":    "Ultimo",
+                "sNext":    "Successivo",
+                "sPrevious": "Precedente"
+            },
+        }
+    } );
 }
 
 function renderIN(res2) {
-
     var input=[];
     res2.forEach((value, index) => {
         var sample ={
@@ -176,45 +206,45 @@ function renderIN(res2) {
         }
     } );
 }
-
-function renderOUT(res2) {
-    var input=[];
-    res2.forEach((value, index) => {
-        var sample ={
-                "Tipo": "Uscita",
-                "Nome": value.Nome,
-                "Data": value.Data,
-                "Importo": value.Importo +" €",
-                "Categoria":value.Categoria,
-                "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
-            };
-        input.push(sample);
-    });
-    var table = $('#tableOut').DataTable( {
-        "data":input,
-        "columns": [
-            { "data": "Tipo" },
-            { "data": "Nome" },
-            { "data": "Data" },
-            { "data": "Importo" },
-            { "data": "Categoria" },
-            { "data": "Elimina" }
-        ],
-        "pagingType": "simple",
-        "language": {
-            "sProcessing":    "Caricamento...",
-            "sSearch":        "Cerca:",
-            "sInfoEmpty":     " ",
-            "oPaginate": {
-                "sFirst":    "Primo",
-                "sLast":    "Ultimo",
-                "sNext":    "Successivo",
-                "sPrevious": "Precedente"
-            },
-        }
-    } );
-    // $('.dataTables_length').addClass('bs-select');
-}
+//
+// function renderOUT(res2) {
+//     var input=[];
+//     res2.forEach((value, index) => {
+//         var sample ={
+//                 "Tipo": "Uscita",
+//                 "Nome": value.Nome,
+//                 "Data": value.Data,
+//                 "Importo": value.Importo +" €",
+//                 "Categoria":value.Categoria,
+//                 "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
+//             };
+//         input.push(sample);
+//     });
+//     var table = $('#tableOut').DataTable( {
+//         "data":input,
+//         "columns": [
+//             { "data": "Tipo" },
+//             { "data": "Nome" },
+//             { "data": "Data" },
+//             { "data": "Importo" },
+//             { "data": "Categoria" },
+//             { "data": "Elimina" }
+//         ],
+//         "pagingType": "simple",
+//         "language": {
+//             "sProcessing":    "Caricamento...",
+//             "sSearch":        "Cerca:",
+//             "sInfoEmpty":     " ",
+//             "oPaginate": {
+//                 "sFirst":    "Primo",
+//                 "sLast":    "Ultimo",
+//                 "sNext":    "Successivo",
+//                 "sPrevious": "Precedente"
+//             },
+//         }
+//     } );
+//     // $('.dataTables_length').addClass('bs-select');
+// }
 
 
 function delOut(id) {
@@ -410,39 +440,161 @@ $.post("/getChartIN", (res)=>{
 });
 /** **/
 
-function fillOption() {
+function fillOpOut() {
     $.post("/getOp", (res) =>{
+        var input=[];
         res.forEach((value, index) => {
             switch (value.Tipo) {
                 case 'U':
-                    var tabout = '<tr>' +
-                        '<td>'+value.ID+'</td>' +
-                        '<td>'+value.Nome+'</td>' +
-                        '<td>'+value.Descrizione+'</td>' +
-                        '<td>Uscita</td>' +
-                        '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
-                        '</tr>';
-                    $(".catOut").append(tabout);
+                    var sample ={
+                        "ID": value.ID,
+                        "Nome": value.Nome,
+                        "Descrizione": value.Descrizione,
+                        "Tipo":"Uscita",
+                        "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button>'
+                    };
+                    input.push(sample);
+                    // $(".catOut").append(tabout);
                     var listCatOut ='<option value="'+value.ID+'">'+value.Nome+'</option>';
                     $("#categoryOut").append(listCatOut);
                     break;
+                //
+                // case 'E':
+                //     var tabEle = '<tr>' +
+                //         '<td>'+value.ID+'</td>' +
+                //         '<td>'+value.Nome+'</td>' +
+                //         '<td>'+value.Descrizione+'</td>' +
+                //         '<td>Entrata</td>' +
+                //         '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                //         '</tr>';
+                //     $(".catIn").append(tabEle);
+                //     var listCatIn ='<option value="'+value.ID+'">'+value.Nome+'</option>';
+                //     $("#categoryIn").append(listCatIn);
+                //     break;
+            }
+        });
+        var table = $('#tableCatOut').DataTable( {
+            "data":input,
+            "columns": [
+                { "data": "ID" },
+                { "data": "Nome" },
+                { "data": "Descrizione" },
+                { "data": "Tipo" },
+                { "data": "Elimina" }
+            ],
+            "pagingType": "simple",
+            "language": {
+                "sProcessing":    "Caricamento...",
+                "sSearch":        "Cerca:",
+                "sInfoEmpty":     " ",
+                "oPaginate": {
+                    "sFirst":    "Primo",
+                    "sLast":    "Ultimo",
+                    "sNext":    "Successivo",
+                    "sPrevious": "Precedente"
+                },
+            }
+        } );
+    })
+}
 
+
+function fillOpIn() {
+    $.post("/getOp", (res) =>{
+        var input=[];
+        res.forEach((value, index) => {
+            switch (value.Tipo) {
                 case 'E':
-                    var tabEle = '<tr>' +
-                        '<td>'+value.ID+'</td>' +
-                        '<td>'+value.Nome+'</td>' +
-                        '<td>'+value.Descrizione+'</td>' +
-                        '<td>Entrata</td>' +
-                        '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
-                        '</tr>';
-                    $(".catIn").append(tabEle);
+                    var sample ={
+                        "ID": value.ID,
+                        "Nome": value.Nome,
+                        "Descrizione": value.Descrizione,
+                        "Tipo":"Entrata",
+                        "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button>'
+                    };
+                    input.push(sample);
                     var listCatIn ='<option value="'+value.ID+'">'+value.Nome+'</option>';
                     $("#categoryIn").append(listCatIn);
                     break;
+                //
+                // case 'E':
+                //     var tabEle = '<tr>' +
+                //         '<td>'+value.ID+'</td>' +
+                //         '<td>'+value.Nome+'</td>' +
+                //         '<td>'+value.Descrizione+'</td>' +
+                //         '<td>Entrata</td>' +
+                //         '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
+                //         '</tr>';
+                //     $(".catIn").append(tabEle);
+                //
+                //     break;
             }
-        })
+        });
+        var table = $('#tableCatIn').DataTable( {
+            "data":input,
+            "columns": [
+                { "data": "ID" },
+                { "data": "Nome" },
+                { "data": "Descrizione" },
+                { "data": "Tipo" },
+                { "data": "Elimina" }
+            ],
+            "pagingType": "simple",
+            "language": {
+                "sProcessing":    "Caricamento...",
+                "sSearch":        "Cerca:",
+                "sInfoEmpty":     " ",
+                "oPaginate": {
+                    "sFirst":    "Primo",
+                    "sLast":    "Ultimo",
+                    "sNext":    "Successivo",
+                    "sPrevious": "Precedente"
+                },
+            }
+        } );
     })
 }
+
+function renderOUT(res2) {
+    var input=[];
+    res2.forEach((value, index) => {
+        var sample ={
+            "Tipo": "Uscita",
+            "Nome": value.Nome,
+            "Data": value.Data,
+            "Importo": value.Importo +" €",
+            "Categoria":value.Categoria,
+            "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
+        };
+        input.push(sample);
+    });
+    var table = $('#tableOut').DataTable( {
+        "data":input,
+        "columns": [
+            { "data": "Tipo" },
+            { "data": "Nome" },
+            { "data": "Data" },
+            { "data": "Importo" },
+            { "data": "Categoria" },
+            { "data": "Elimina" }
+        ],
+        "pagingType": "simple",
+        "language": {
+            "sProcessing":    "Caricamento...",
+            "sSearch":        "Cerca:",
+            "sInfoEmpty":     " ",
+            "oPaginate": {
+                "sFirst":    "Primo",
+                "sLast":    "Ultimo",
+                "sNext":    "Successivo",
+                "sPrevious": "Precedente"
+            },
+        }
+    } );
+    // $('.dataTables_length').addClass('bs-select');
+}
+
+
 
 function delCat(id) {
     var typeOp="";

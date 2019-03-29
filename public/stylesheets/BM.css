@@ -105,6 +105,41 @@ div.background {
 
 }
 
+#tableCatOut_wrapper {
+    background-color: #5F7185;
+    border-radius: 0.5rem;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    color: black;
+
+}
+
+#tableCatIn_wrapper {
+    background-color: #5F7185;
+    border-radius: 0.5rem;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    color: black;
+
+}
+
+#mytable_wrapper {
+    background-color: #5F7185;
+    border-radius: 0.5rem;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    color: black;
+
+}
+
+#tableCatOut_filter{
+    color: black;
+}
+
+#tableCatIn_filter{
+    color: black;
+}
+
 .dataTables_info {
     display: none;
 }
@@ -122,5 +157,9 @@ div.background {
 }
 
 #tableIn_filter{
+    color: black;
+}
+
+#mytable_filter{
     color: black;
 }
