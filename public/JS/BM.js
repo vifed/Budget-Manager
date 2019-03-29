@@ -3,6 +3,10 @@ $(document).ready(function () {
     getData();
     fillOpOut();
     fillOpIn();
+    getSaldo();
+    getLastIn();
+    getLastOut();
+
 
     $.post("/getMaxCatIn", (res)=>{
         res = JSON.parse(res);
@@ -91,7 +95,6 @@ $(document).ready(function () {
 
 });
 
-
 function getData() {
     $.post('/allData', (res) =>{
         renderAll(res);
@@ -99,12 +102,59 @@ function getData() {
 
     $.post('/getEntrate', (res2) =>{
         renderIN(res2);
+        chartonDash(res2);
     });
 
     $.post('/getUscite', (res3) =>{
         renderOUT(res3);
+        // chartonDash(res3, "dashChartOut");
     })
 
+}
+
+function getSaldo() {
+    var tabElem="";
+    $.post('/saldo', (res) =>{
+        res = JSON.parse(res);
+        if(res < 0){
+            tabElem = '<tr>' +
+                '<td style="color: red">' + res.toFixed(2) + ' €</td>' +
+                '</tr>';
+            $('.saldo').append(tabElem);
+        }
+        else{
+            tabElem = '<tr>' +
+                '<td style="color: green">+' + res.toFixed(2) + ' €</td>' +
+                '</tr>';
+            $('.saldo').append(tabElem);
+        }
+    });
+}
+
+function getLastIn() {
+    $.post('/lastIn', (res) =>{
+        res = JSON.parse(res);
+        var tabElem = '<tr style="color: green">' +
+            '<td>' + res.Nome + '</td>' +
+            '<td>' + res.Data + '</td>' +
+            '<td>' + res.Importo.toFixed(2) + ' €</td>' +
+            '<td>' + res.Categoria + '</td>' +
+            '</tr>';
+        $('.lastIn').append(tabElem);
+    });
+}
+
+function getLastOut() {
+    $.post('/lastOut', (res) =>{
+        res = JSON.parse(res);
+        var tabElem = '<tr style="color: #ff0e3e">' +
+            '<td>' + res.Nome + '</td>' +
+            '<td>' + res.Data + '</td>' +
+            '<td>' + res.Importo.toFixed(2) + ' €</td>' +
+            '<td>' + res.Categoria + '</td>' +
+            '</tr>';
+        $('.lastOut').append(tabElem);
+    });
 }
 
 function renderAll(IN) {
@@ -127,7 +177,7 @@ function renderAll(IN) {
                 "Tipo": "Entrata",
                 "Nome": value.Nome,
                 "Data": value.Data,
-                "Importo": value.Importo + " €",
+                "Importo": value.Importo.toFixed(2) + " €",
                 "Categoria": value.Categoria,
                 "Elimina": '<button id="' + value.ID + '" type="button" class="btn btn-outline-primary"  onclick="delIn(this.id)"><i class="fa fa-trash"></i></button>'
             };
@@ -137,7 +187,7 @@ function renderAll(IN) {
                 "Tipo": "Uscita",
                 "Nome": value.Nome,
                 "Data": value.Data,
-                "Importo": value.Importo +" €",
+                "Importo": value.Importo.toFixed(2) +" €",
                 "Categoria":value.Categoria,
                 "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
             };
@@ -176,7 +226,7 @@ function renderIN(res2) {
             "Tipo": "Entrata",
             "Nome": value.Nome,
             "Data": value.Data,
-            "Importo": value.Importo +" €",
+            "Importo": value.Importo.toFixed(2) +" €",
             "Categoria":value.Categoria,
             "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delIn(this.id)"><i class="fa fa-trash"></i></button>'
         };
@@ -275,7 +325,7 @@ $.post("/getMaxOut", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + ' €</td>' +
+        '<td>' + res.Importo.toFixed(2) + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.maxtabOut').append(tabElem);
@@ -286,7 +336,7 @@ $.post("/getMinOut", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + ' €</td>' +
+        '<td>' + res.Importo.toFixed(2) + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.mintabOut').append(tabElem);
@@ -295,10 +345,67 @@ $.post("/getMinOut", (res)=>{
 $.post("/getAvgOut", (res)=>{
     res = JSON.parse(res);
     var tabElem = '<tr>' +
-        '<td>' + res.Importo + ' €</td>' +
+        '<td>' + res.Importo.toFixed(2) + ' €</td>' +
         '</tr>';
     $('.avgtabOut').append(tabElem);
 });
+function chartonDash(res, type){
+    var myLabels =[];
+    var myData =[];
+    res.forEach((value, index)=>{
+        console.log("chart to dash func \n", value.Data+" e "+value.Importo);
+        myLabels.push(value.Data);
+        myData.push(value.Importo);
+    });
+    var ctx = document.getElementById('dashChartIn');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: myLabels,
+            datasets: [{
+                label: 'Valore totale',
+                data: myData,
+                backgroundColor: [
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
+                ],
+                borderColor: [
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
+                ],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: 'black'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 5,
+                    top: 5,
+                    bottom: 0
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
 
 $.post("/getChartOut", (res)=>{
     var myLabels =[];
@@ -365,7 +472,7 @@ $.post("/getMaxIN", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + ' €</td>' +
+        '<td>' + res.Importo.toFixed(2) + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.maxtabIn').append(tabElem);
@@ -376,7 +483,7 @@ $.post("/getMinIN", (res)=>{
     var tabElem = '<tr>' +
         '<td>' + res.Nome + '</td>' +
         '<td>' + res.Data + '</td>' +
-        '<td>' + res.Importo + ' €</td>' +
+        '<td>' + res.Importo.toFixed(2) + ' €</td>' +
         '<td>' + res.Categoria + '</td>' +
         '</tr>';
     $('.mintabIn').append(tabElem);
@@ -385,7 +492,7 @@ $.post("/getMinIN", (res)=>{
 $.post("/getAvgIN", (res)=>{
     res = JSON.parse(res);
     var tabElem = '<tr>' +
-        '<td>' + res.Importo + ' €</td>' +
+        '<td>' + res.Importo.toFixed(2) + ' €</td>' +
         '</tr>';
     $('.avgtabIn').append(tabElem);
 });
@@ -562,7 +669,7 @@ function renderOUT(res2) {
             "Tipo": "Uscita",
             "Nome": value.Nome,
             "Data": value.Data,
-            "Importo": value.Importo +" €",
+            "Importo": value.Importo.toFixed(2) +" €",
             "Categoria":value.Categoria,
             "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
         };

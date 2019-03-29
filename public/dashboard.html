@@ -37,6 +37,9 @@
         <button  type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModalOut">
             Aggiungi Uscita
         </button>
+        <button  type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModalReset">
+            RESET
+        </button>
         <br><br>
         <h4 style="color: #fffff0">Ecco un riepilogo di tutti i tuoi movimenti:</h4>
         <div class="table-responsive-sm text-center">
@@ -64,25 +67,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col text-center">
-            <div class="card" style="width: 30rem;">
-                <div class="col-12">
-                    <blockquote class="blockquote text-center">
-                        <p class="mb-0">Riepilogo per Categoria.</p>
-                    </blockquote>
-                    <div class="card-body row">
-                        <div class="col-6">
-                                <footer class="blockquote-footer">Somma delle Uscite per ogni Categoria</footer>
-                            <canvas id="myChartOut" style="background-color: white;"></canvas>
-                        </div>
-                        <div class="col-6">
-                        <footer class="blockquote-footer">Somma delle Entrate per ogni Categoria</footer>
-                        <canvas id="myChartIn" style="background-color: white;"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
 
     </div>
@@ -91,102 +76,149 @@
         <div class="col text-center">
             <div class="card" style="width: 30rem;">
                 <div class="col-12">
-                    <div class="card-body row">
-
-                        <table class="table table-striped">
-                            <thead>
+                    <div class="card-body col">
+                        <div>
                             <blockquote class="blockquote text-center">
-                                <p class="mb-0">Uscita MASSIMA.</p>
-                                <footer class="blockquote-footer">Uscita con valore più alto</footer>
+                                <p class="mb-0">Saldo attuale:</p>
+                                <table class="table-responsive table-striped">
+                                    <tbody class="saldo">
+                                    </tbody>
+                                </table>
                             </blockquote>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Data</th>
-                                <th>Importo</th>
-                                <th>Categoria</th>
-                            </tr>
-                            </thead>
-                            <tbody class="maxtabOut">
+                        <hr/>
+                        </div>
+                        <div>
+                             <blockquote class="blockquote text-center">
+                                <p class="mb-0">Ultima Uscita</p>
+                            </blockquote>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Data</th>
+                                    <th>Importo</th>
+                                    <th>Categoria</th>
+                                </tr>
+                                </thead>
+                                <tbody class="lastOut">
 
-                            </tbody>
-                        </table>
-                        <table class="table table-striped">
-                            <thead>
+                                </tbody>
+                            </table>
+                        </div><hr/>
+                        <div>
                             <blockquote class="blockquote text-center">
-                                <p class="mb-0">Uscita MINIMA.</p>
-                                <footer class="blockquote-footer">Uscita con valore più basso</footer>
+                                <p class="mb-0">Ultima Entrata</p>
                             </blockquote>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Data</th>
-                                <th>Importo</th>
-                                <th>Categoria</th>
-                            </tr>
-                            </thead>
-                            <tbody class="mintabOut">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Data</th>
+                                    <th>Importo</th>
+                                    <th>Categoria</th>
+                                </tr>
+                                </thead>
+                                <tbody class="lastIn">
+                                </tbody>
+                            </table>
+                        </div><hr/>
+                        <div class=" text-center">
+                            <div class="card">
+                                <div class="row text-center">
+                                    <blockquote class="blockquote text-center">
+                                        <p class="mb-0">Riepilogo per Tipo:</p>
+                                    </blockquote>
+                                    <div class="card-body col ">
+                                        <div class="col-6">
+                                            <footer class="blockquote-footer text-center">Andamento delle Uscite per ogni Categoria</footer>
+                                            <canvas id="dashChartOut" width="350" height="200"></canvas>
+                                        </div>&nbsp;
+                                        <div class="col-6">
+                                            <footer class="blockquote-footer">Andamento delle Entrate per ogni Categoria</footer>
+                                            <canvas id="dashChartIn" width="350" height="200"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                            </tbody>
-                        </table>
-                        <table class="table table-striped">
-                            <thead>
-                            <blockquote class="blockquote text-center">
-                                <p class="mb-0">Uscita MEDIA.</p>
-                            </blockquote>
-                            <tr>
-                                <th>Importo valore medio</th>
-                            </tr>
-                            </thead>
-                            <tbody class="avgtabOut">
+                        <!--<table class="table table-striped">-->
+                            <!--<thead>-->
+                            <!--<blockquote class="blockquote text-center">-->
+                                <!--<p class="mb-0">Uscita MINIMA.</p>-->
+                                <!--<footer class="blockquote-footer">Uscita con valore più basso</footer>-->
+                            <!--</blockquote>-->
+                            <!--<tr>-->
+                                <!--<th>Nome</th>-->
+                                <!--<th>Data</th>-->
+                                <!--<th>Importo</th>-->
+                                <!--<th>Categoria</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody class="mintabOut">-->
 
-                            </tbody>
-                        </table>
+                            <!--</tbody>-->
+                        <!--</table>-->
+                        <!--<table class="table table-striped">-->
+                            <!--<thead>-->
+                            <!--<blockquote class="blockquote text-center">-->
+                                <!--<p class="mb-0">Uscita MEDIA.</p>-->
+                            <!--</blockquote>-->
+                            <!--<tr>-->
+                                <!--<th>Importo valore medio</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody class="avgtabOut">-->
+
+                            <!--</tbody>-->
+                        <!--</table>-->
                     <!--<div class="card-body row">-->
-                        <table class="table table-striped">
-                            <thead>
-                            <blockquote class="blockquote text-center">
-                                <p class="mb-0">Entrata MASSIMA.</p>
-                                <footer class="blockquote-footer">Entrata con valore più alto</footer>
-                            </blockquote>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Data</th>
-                                <th>Importo</th>
-                                <th>Categoria</th>
-                            </tr>
-                            </thead>
-                            <tbody class="maxtabIn">
+                        <!--<table class="table table-striped">-->
+                            <!--<thead>-->
+                            <!--<blockquote class="blockquote text-center">-->
+                                <!--<p class="mb-0">Entrata MASSIMA.</p>-->
+                                <!--<footer class="blockquote-footer">Entrata con valore più alto</footer>-->
+                            <!--</blockquote>-->
+                            <!--<tr>-->
+                                <!--<th>Nome</th>-->
+                                <!--<th>Data</th>-->
+                                <!--<th>Importo</th>-->
+                                <!--<th>Categoria</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody class="maxtabIn">-->
 
-                            </tbody>
-                        </table>
-                        <table class="table table-striped">
-                            <thead>
-                            <blockquote class="blockquote text-center">
-                                <p class="mb-0">Entrata MINIMA.</p>
-                                <footer class="blockquote-footer">Entrata con valore più basso</footer>
-                            </blockquote>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Data</th>
-                                <th>Importo</th>
-                                <th>Categoria</th>
-                            </tr>
-                            </thead>
-                            <tbody class="mintabIn">
+                            <!--</tbody>-->
+                        <!--</table>-->
+                        <!--<table class="table table-striped">-->
+                            <!--<thead>-->
+                            <!--<blockquote class="blockquote text-center">-->
+                                <!--<p class="mb-0">Entrata MINIMA.</p>-->
+                                <!--<footer class="blockquote-footer">Entrata con valore più basso</footer>-->
+                            <!--</blockquote>-->
+                            <!--<tr>-->
+                                <!--<th>Nome</th>-->
+                                <!--<th>Data</th>-->
+                                <!--<th>Importo</th>-->
+                                <!--<th>Categoria</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody class="mintabIn">-->
 
-                            </tbody>
-                        </table>
-                        <table class="table table-striped">
-                            <thead>
-                            <blockquote class="blockquote text-center">
-                                <p class="mb-0">Entrata MEDIA.</p>
-                            </blockquote>
-                            <tr>
-                                <th>Importo valore medio</th>
-                            </tr>
-                            </thead>
-                            <tbody class="avgtabIn">
-                            </tbody>
-                        </table>
+                            <!--</tbody>-->
+                        <!--</table>-->
+                        <!--<table class="table table-striped">-->
+                            <!--<thead>-->
+                            <!--<blockquote class="blockquote text-center">-->
+                                <!--<p class="mb-0">Entrata MEDIA.</p>-->
+                            <!--</blockquote>-->
+                            <!--<tr>-->
+                                <!--<th>Importo valore medio</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody class="avgtabIn">-->
+                            <!--</tbody>-->
+                        <!--</table>-->
                 <!--</div>-->
 
                 </div>
@@ -320,10 +352,35 @@
                             </div>
                         </div>
                     </div>
-
-                     Modal footer
                     <div class="modal-footer">
                         <button id="addIN" type="button" class="btn btn-outline-success" data-dismiss="modal">Salva</button>
+                        <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Reset operation-->
+        <div class="modal fade background text-center" id="myModalReset">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content resetModal">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header" style="text-align: center">
+                        <h4 class="modal-title" style="color: #ff0e3e"><b>RESET</b></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group col">
+                          <h6>Attenzione se prosegui tutte le Entrate e le Uscite che hai inserito saranno cancellate!</h6>
+                          <h6>Le categorie personalizzate verranno eliminate e ripristinate con quelle di default!</h6>
+                          <h5><b>Sei sicuro di voler continuare ?</b></h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="resetAll" type="button" class="btn btn-outline-danger" data-dismiss="modal">Elimina TUTTO</button>
                         <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
                     </div>
                 </div>
@@ -333,6 +390,7 @@
 
 
 </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

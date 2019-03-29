@@ -76,6 +76,15 @@ blockquote{
     display:table
 }
 
+.resetModal{
+    max-width:400px;
+    text-align: center;
+    padding-left: 5px;
+    margin:0 auto;
+    width:auto;
+    display:table
+}
+
 .addInModalOp{
     max-width:400px;
     text-align: center;

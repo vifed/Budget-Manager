@@ -49,19 +49,31 @@ myDB.query("CREATE VIEW IF NOT EXISTS SommaEntrataPerCategoria AS\n" +
         throw err;
 });
 
-myDB.query("CREATE VIEW IF NOT EXISTS MaxUscita AS\n" +
-    "SELECT U1.Nome, Data, Importo, Categoria.Nome AS Categoria, Categoria.Tipo FROM Uscita AS U1, Categoria WHERE NOT EXISTS (SELECT * FROM Uscita WHERE U1.Importo<Importo)\n" +
-    "AND Categoria.ID = U1.Categoria", (err)=>{
+myDB.query("CREATE VIEW IF NOT EXISTS TotaleUscita AS\n" +
+    "SELECT SUM(Uscita.Importo) AS Somma_Uscite FROM Uscita", (err)=>{
     if (err)
         throw err;
 });
 
-myDB.query("CREATE VIEW IF NOT EXISTS MaxEntrata AS\n" +
-    "SELECT E1.Nome, Data, Importo, Categoria.Nome AS Categoria, Categoria.Tipo FROM Entrata AS E1, Categoria WHERE NOT EXISTS (SELECT * FROM Uscita WHERE E1.Importo<Importo)\n" +
-    "AND Categoria.ID = E1.Categoria", (err)=>{
+myDB.query("CREATE VIEW IF NOT EXISTS TotaleEntrata AS\n" +
+    "SELECT SUM(Entrata.Importo) AS Somma_Entrate FROM Entrata", (err)=>{
     if (err)
         throw err;
 });
+
+// myDB.query("CREATE VIEW IF NOT EXISTS MaxUscita AS\n" +
+//     "SELECT U1.Nome, Data, Importo, Categoria.Nome AS Categoria, Categoria.Tipo FROM Uscita AS U1, Categoria WHERE NOT EXISTS (SELECT * FROM Uscita WHERE U1.Importo<Importo)\n" +
+//     "AND Categoria.ID = U1.Categoria", (err)=>{
+//     if (err)
+//         throw err;
+// });
+//
+// myDB.query("CREATE VIEW IF NOT EXISTS MaxEntrata AS\n" +
+//     "SELECT E1.Nome, Data, Importo, Categoria.Nome AS Categoria, Categoria.Tipo FROM Entrata AS E1, Categoria WHERE NOT EXISTS (SELECT * FROM Uscita WHERE E1.Importo<Importo)\n" +
+//     "AND Categoria.ID = E1.Categoria", (err)=>{
+//     if (err)
+//         throw err;
+// });
 
 app.post('/userExists', (req, res) => {
     myDB.query("SELECT * FROM Utente", (err, rows) => {
@@ -89,6 +101,61 @@ app.post('/newUser', (req, res) => {
             console.log(err);
     });
     res.end();
+});
+
+app.post("/saldo", (req, res)=>{
+    myDB.query(" SELECT * FROM TotaleEntrata ", (err, fields)=>{
+        if (err)
+            throw err;
+        else{
+            myDB.query(" SELECT * FROM TotaleUscita ", (err, rows)=>{
+                if (err)
+                    throw err;
+                else{
+                    var saldo = fields[0].Somma_Entrate-rows[0].Somma_Uscite;
+                }
+                saldo = JSON.stringify(saldo);
+                res.send(saldo).end();
+            });
+        }
+    });
+
+});
+
+app.post('/lastIn', (req, res) =>{
+    myDB.query("SELECT e1.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Entrata AS e1, Categoria WHERE NOT EXISTS ( SELECT * FROM Entrata AS e2 WHERE e1.Data < e2.Data) AND e1.Categoria=Categoria.ID",(err,rows) =>{
+        if (err)
+            throw err;
+        else{
+            console.log(rows[0].Data);
+            var data  = reverseString(new Date(rows[0].Data).toJSON().slice(0, 10));
+            console.log(data);
+            var sample = {
+                Nome: rows[0].Nome,
+                Data: data,
+                Importo: rows[0].Importo,
+                Categoria: rows[0].Categoria
+            };
+            res.send(JSON.stringify(sample)).end();
+        }
+    })
+});
+
+app.post('/lastOut', (req, res) =>{
+    myDB.query("SELECT u1.Nome, Data, Importo, Categoria.Nome AS Categoria FROM Uscita AS u1, Categoria WHERE NOT EXISTS ( SELECT * FROM Uscita AS u2 WHERE u1.Data < u2.Data) AND u1.Categoria=Categoria.ID",(err,rows) =>{
+        if (err)
+            throw err;
+        else{
+            var data  = reverseString(new Date(rows[0].Data).toJSON().slice(0, 10));
+            var sample = {
+                Nome: rows[0].Nome,
+                Data: data,
+                Importo: rows[0].Importo,
+                Categoria: rows[0].Categoria
+            };
+            res.send(JSON.stringify(sample)).end();
+        }
+    })
 });
 
 app.post("/getOp", (req, res) => {
@@ -171,7 +238,7 @@ app.post('/newOUT', (req, res) => {
 });
 
 function reverseString(str) {
-    return str.split("-").reverse().join("/");
+    return str.split("-").reverse().join("-");
 }
 
 app.post('/getEntrate', (req, res) => {
@@ -182,7 +249,7 @@ app.post('/getEntrate', (req, res) => {
             if (rows.length) {
                 var inVals = [];
                 for (let i = 0; i < rows.length; i++) {
-                    var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
+                    var data  = reverseString(new Date(rows[i].Data).toJSON().slice(0, 10));
                     var sample = {
                         ID: rows[i].ID,
                         Nome: rows[i].Nome,
@@ -207,7 +274,7 @@ app.post('/getUscite', (req, res) => {
             if (rows.length) {
                 var inVals = [];
                 for (let i = 0; i < rows.length; i++) {
-                    var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
+                    var data  = reverseString(new Date(rows[i].Data).toJSON().slice(0, 10));
                     var sample = {
                         ID: rows[i].ID,
                         Nome: rows[i].Nome,
@@ -232,7 +299,7 @@ app.post('/allData', (req, res)=>{
             if(rows.length){
                 var resultVal = [];
                 for(let i=0; i<rows.length; i++){
-                    var data = reverseString(new Date(rows[i].Data).toLocaleDateString());
+                    var data  = reverseString(new Date(rows[i].Data).toJSON().slice(0, 10));
                     var sample ={
                         ID: rows[i].ID,
                         Nome: rows[i].Nome,
@@ -254,7 +321,6 @@ app.post('/delElem', (req, res) => {
            if(err)
                throw err;
            else
-               console.log(ris);
                res.end();
        })
 });
@@ -342,7 +408,7 @@ app.post('/getMaxOut', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                var data = reverseString(new Date(rows[0].Data).toLocaleDateString());
+                var data  = reverseString(new Date(rows[0].Data).toJSON().slice(0, 10));
                 var sample = {
                     Nome: rows[0].Nome,
                     Data: data,
@@ -363,7 +429,7 @@ app.post('/getMaxIN', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                var data = reverseString(new Date(rows[0].Data).toLocaleDateString());
+                var data  = reverseString(new Date(rows[0].Data).toJSON().slice(0, 10));
                 var sample = {
                     Nome: rows[0].Nome,
                     Data: data,
@@ -384,7 +450,7 @@ app.post('/getMinOut', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                var data = reverseString(new Date(rows[0].Data).toLocaleDateString());
+                var data  = reverseString(new Date(rows[0].Data).toJSON().slice(0, 10));
                 var sample = {
                     Nome: rows[0].Nome,
                     Data: data,
@@ -405,7 +471,7 @@ app.post('/getMinIN', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                var data = reverseString(new Date(rows[0].Data).toLocaleDateString());
+                var data  = reverseString(new Date(rows[0].Data).toJSON().slice(0, 10));
                 var sample = {
                     Nome: rows[0].Nome,
                     Data: data,
@@ -425,7 +491,6 @@ app.post('/getAvgOut', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                var data = reverseString(new Date(rows[0].Data).toLocaleDateString());
                 var sample = {
                     Importo: rows[0].Importo,
                 };
@@ -443,7 +508,6 @@ app.post('/getAvgIN', (req, res) => {
             throw err;
         else {
             if (rows.length) {
-                var data = reverseString(new Date(rows[0].Data).toLocaleDateString());
                 var sample = {
                     Importo: rows[0].Importo,
                 };
