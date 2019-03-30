@@ -16,19 +16,31 @@
 <body>
 <div class="container row">
     <nav class="navbar navbar-expand navbar-dark fixed-top justify-content-center">
-        <ul class="nav nav-tabs nav-dark nav-fill" style="color: white">
+        <ul class="nav nav-tabs nav-dark nav-fill " style="color: white">
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Benvenuto, <b class="userName"></b></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown">
+                    <hr>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delUser">Elinima Utente</a>
+
+                    <hr>
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link " href="dashboard.html">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="entrate.html">Entrate</a>
+                <a class="nav-link " href="entrate.html">Entrate</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="uscite.html">Uscite</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="categorie.html">Categorie</a>
+                <a class="nav-link " href="categorie.html">Categorie</a>
             </li>
+
         </ul>
     </nav>
     <div class="ccontainer-fluid col-md-8" style="margin-top:80px">

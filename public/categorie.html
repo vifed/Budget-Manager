@@ -16,7 +16,18 @@
 <body>
 <div class="container row">
     <nav class="navbar navbar-expand navbar-dark fixed-top justify-content-center">
-        <ul class="nav nav-tabs nav-dark nav-fill" style="color: white">
+        <ul class="nav nav-tabs nav-dark nav-fill " style="color: white">
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Benvenuto, <b class="userName"></b></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown">
+                    <hr>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delUser">Elinima Utente</a>
+
+                    <hr>
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link " href="dashboard.html">Dashboard</a>
             </li>
@@ -29,6 +40,7 @@
             <li class="nav-item">
                 <a class="nav-link active" href="categorie.html">Categorie</a>
             </li>
+
         </ul>
     </nav>
     <div class="container-fluid col-md-8" style="margin-top:80px">
@@ -97,49 +109,6 @@
             <div class=" col-12">
                 <div class="card" style="width: 30rem;">
                     <div class="card-body">
-                        <!--<h5 class="card-title">Categorie per Entrata</h5>-->
-                        <p>
-                            <blockquote class="blockquote text-center">
-                        <p class="mb-0">Categorie per Entrata</p>
-                        </blockquote>
-                        <table class="table table-striped text-center">
-                            <thead>
-                            <footer class="blockquote-footer">Categoria per Entrata più utilizzata</footer>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Descrizione</th>
-                            </tr>
-                            </thead>
-                            <tbody class="maxCatIn">
-
-                            </tbody>
-                        </table>
-                        </p>
-                        <p>
-                        <table class="table table-striped text-center">
-                            <thead>
-                            <footer class="blockquote-footer">Categoria per Entrata meno utilizzata</footer>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Descrizione</th>
-                            </tr>
-                            </thead>
-                            <tbody class="minCatIn">
-
-                            </tbody>
-                        </table>
-                        </p>
-                        <div class="col-12">
-                            <blockquote class="blockquote text-center">
-                                <p class="mb-0">Riepilogo Categoria per Entrata.</p>
-                                <footer class="blockquote-footer">Utilizzo delle Categorie per Entrate</footer>
-                            </blockquote>
-                            <canvas id="myChartOut" style="background-color: white;"></canvas>
-                        </div>
-                    </div>
-                </div><br>
-                <div class="card" style="width: 30rem;">
-                    <div class="card-body">
                         <div class="card-body">
                             <p>
                                 <blockquote class="blockquote text-center">
@@ -147,7 +116,7 @@
                             </blockquote>
                             <table class="table table-striped text-center">
                                 <thead>
-                                <footer class="blockquote-footer">Categoria per Uscita più utilizzata</footer>
+                                <footer class="blockquote-footer"><b>Categoria per <b style="color: #cd0600;">Uscita</b> più utilizzata</b></footer>
                                 <tr>
                                     <th>Nome</th>
                                     <th>Descrizione</th>
@@ -161,7 +130,8 @@
                             <p>
                             <table class="table table-striped text-center">
                                 <thead>
-                                <footer class="blockquote-footer">Categoria per Entrata meno utilizzata</footer>
+                                <footer class="blockquote-footer"><b>Categoria per <b style="color: #cd0600;">Uscita</b> meno utilizzata</b></footer>
+
                                 <tr>
                                     <th>Nome</th>
                                     <th>Descrizione</th>
@@ -177,14 +147,87 @@
                                     <p class="mb-0">Riepilogo Categoria per Uscita.</p>
                                     <footer class="blockquote-footer">Utilizzo delle Categorie per Uscita</footer>
                                 </blockquote>
-                                <canvas id="myChartIn" style="background-color: white;"></canvas>
+                                <canvas id="chartCatOut" style="background-color: white;"></canvas>
                             </div>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="card" style="width: 30rem;">
+                    <div class="card-body">
+                        <!--<h5 class="card-title">Categorie per Entrata</h5>-->
+                        <p>
+                            <blockquote class="blockquote text-center">
+                        <p class="mb-0">Categorie per Entrata</p>
+                        </blockquote>
+                        <table class="table table-striped text-center">
+                            <thead>
+                            <footer class="blockquote-footer"><b>Categoria per <b style="color: #2fcd00;">Entrata</b> più utilizzata</b></footer>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrizione</th>
+                            </tr>
+                            </thead>
+                            <tbody class="maxCatIn">
+
+                            </tbody>
+                        </table>
+                        </p>
+                        <p>
+                        <table class="table table-striped text-center">
+                            <thead>
+                            <footer class="blockquote-footer"><b>Categoria per <b style="color: #2fcd00;">Entrata</b> meno utilizzata</b></footer>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrizione</th>
+                            </tr>
+                            </thead>
+                            <tbody class="minCatIn">
+
+                            </tbody>
+                        </table>
+                        </p>
+                        <div class="col-12">
+                            <blockquote class="blockquote text-center">
+                                <p class="mb-0">Riepilogo Categoria per Entrata.</p>
+                                <footer class="blockquote-footer">Utilizzo delle Categorie per Entrate</footer>
+                            </blockquote>
+                            <canvas id="chartCatIn" style="background-color: white;"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal Delete User operation -->
+    <div class="modal fade background" id="delUser">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content addOutModal">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Sei sicuro di voler eliminare l'utente ?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                        <span>Se elimini l'utente attualmente registrato, tutte le modifiche che hai effettuato andranno perse e dovrai
+                            registrare un nuovo utente!
+                        </span>
+                    <h5>Continuare ?</h5>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="delUser-btn" type="button" class="btn btn-outline-danger" data-dismiss="modal">Elimina</button>
+                    <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
     <!-- Modal for In operation-->
     <div class="modal fade background" id="myModalInOp">

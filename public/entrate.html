@@ -16,7 +16,18 @@
 <body>
 <div class="container row">
     <nav class="navbar navbar-expand navbar-dark fixed-top justify-content-center">
-        <ul class="nav nav-tabs nav-dark nav-fill" style="color: white">
+        <ul class="nav nav-tabs nav-dark nav-fill " style="color: white">
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Benvenuto, <b class="userName"></b></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown">
+                    <hr>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delUser">Elinima Utente</a>
+
+                    <hr>
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link " href="dashboard.html">Dashboard</a>
             </li>
@@ -27,8 +38,9 @@
                 <a class="nav-link" href="uscite.html">Uscite</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="categorie.html">Categorie</a>
+                <a class="nav-link " href="categorie.html">Categorie</a>
             </li>
+
         </ul>
     </nav>
     <div class="ccontainer-fluid col-md-8" style="margin-top:80px">
@@ -206,6 +218,36 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Delete User operation -->
+    <div class="modal fade background" id="delUser">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content addOutModal">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Sei sicuro di voler eliminare l'utente ?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                        <span>Se elimini l'utente attualmente registrato, tutte le modifiche che hai effettuato andranno perse e dovrai
+                            registrare un nuovo utente!
+                        </span>
+                    <h5>Continuare ?</h5>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="delUser-btn" type="button" class="btn btn-outline-danger" data-dismiss="modal">Elimina</button>
+                    <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 </div>
 

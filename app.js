@@ -22,6 +22,13 @@ myDB.connect((err) => {
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+//
+// myDB.query("CREATE TRIGGER IF NOT EXISTS T2 BEFORE DELETE ON Categoria FOR EACH ROW " +
+//     "IF OLD.Predefinito=1 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossibile cancellare una categoria predefinita!'; END IF;\n", (err)=>{
+//     if(err){
+//         console.log(err);
+//     }
+// });
 
 myDB.query("CREATE VIEW IF NOT EXISTS DatiTotali AS\n" +
     " SELECT Entrata.ID, Entrata.Nome, Data, Importo, Categoria.Nome AS Categoria, Categoria.Tipo FROM Entrata, Categoria WHERE Categoria.ID = Entrata.Categoria\n" +
@@ -127,9 +134,7 @@ app.post('/lastIn', (req, res) =>{
         if (err)
             throw err;
         else{
-            console.log(rows[0].Data);
             var data  = reverseString(new Date(rows[0].Data).toJSON().slice(0, 10));
-            console.log(data);
             var sample = {
                 Nome: rows[0].Nome,
                 Data: data,
@@ -558,6 +563,97 @@ app.post('/getChartIN', (req, res)=>{
                }
            }
        })
+});
+
+app.post('/getChartCatIn', (req, res)=>{
+    myDB.query("SELECT C.Nome, COUNT(*) AS TotXCat FROM Entrata AS E, Categoria AS C WHERE E.Categoria=C.ID GROUP BY E.Categoria", (err, rows)=>{
+           if(err)
+               throw err;
+           else{
+               if (rows.length){
+                   var resultVal = [];
+                   for(let i=0; i<rows.length; i++){
+                       var sample ={
+                           Nome: rows[i].Nome,
+                           Totale: rows[i].TotXCat
+                       };
+                       resultVal.push(sample);
+                   }
+                   res.send(resultVal).end();
+               }
+           }
+       })
+});
+
+
+app.post('/getChartCatOut', (req, res)=>{
+    myDB.query("SELECT C.Nome, COUNT(*) AS TotXCat FROM Uscita AS U, Categoria AS C WHERE U.Categoria=C.ID GROUP BY U.Categoria", (err, rows)=>{
+           if(err)
+               throw err;
+           else{
+               if (rows.length){
+                   var resultVal = [];
+                   for(let i=0; i<rows.length; i++){
+                       var sample ={
+                           Nome: rows[i].Nome,
+                           Totale: rows[i].TotXCat
+                       };
+                       resultVal.push(sample);
+                   }
+                   res.send(resultVal).end();
+               }
+           }
+       })
+});
+
+app.post('/userData', (req, res)=>{
+    myDB.query("SELECT Nome, Cognome FROM Utente", (err, rows)=>{
+        if (err)
+            throw err;
+        else{
+            var sample ={
+                Nome: rows[0].Nome,
+                Cognome: rows[0].Cognome
+            };
+            res.send(sample).end();
+        }
+    });
+});
+
+app.post('/resetAll', (req, res)=>{
+    console.log("reset all\n");
+    myDB.query("TRUNCATE TABLE BudManDB.Categoria WHERE Categoria.Predefinito=false", (err, rows)=>{
+        if (err)
+            throw err;
+        else{
+            myDB.query("TRUNCATE TABLE BudManDB.Entrata", (err, rows2)=>{
+                if (err)
+                    throw err;
+                else{
+                    myDB.query("TRUNCATE TABLE BudManDB.Uscita", (err, rows3)=>{
+                        if (err)
+                            throw err;
+                        else{
+                            res.end();
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+app.post('/delUser', (req, res)=>{
+    console.log("delete user");
+    /** to implement reset first**/
+    myDB.query("TRUNCATE TABLE BudManDB.Utente", (err, rows)=>{
+        if (err)
+            throw err;
+        else{
+            console.log(rows);
+            res.send(200).end();
+        }
+    });
 });
 
 

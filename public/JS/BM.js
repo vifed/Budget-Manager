@@ -7,6 +7,18 @@ $(document).ready(function () {
     getLastIn();
     getLastOut();
 
+    $.post("/userData", (res)=>{
+        var tabElem = '<b>'+ res.Nome +'</b>'+" "+'<b>'+ res.Cognome +'</b>';
+        $('.userName').append(tabElem);
+    });
+
+    $.post('/getChartCatIn', (res)=>{
+        renderChartCatIn(res);
+    });
+
+    $.post('/getChartCatOut', (res)=>{
+        renderChartCatOut(res);
+    });
 
     $.post("/getMaxCatIn", (res)=>{
         res = JSON.parse(res);
@@ -49,6 +61,19 @@ $(document).ready(function () {
             alert("Devi prima inserire i dati dell'utente!");
             $(location).attr("href", "welcome.html");
         }
+    });
+
+    $("#resetAll").click(()=>{
+        reset();
+    });
+
+    $("#delUser-btn").click(()=>{
+        console.log("del user js");
+        reset();
+        $.post('/delUser', (res) =>{
+            alert("Utente eliminato con successo!\nRegistra ora un nuovo utente...");
+            location.reload();
+        });
     });
 
     $("#addCat").click(()=>{
@@ -95,14 +120,136 @@ $(document).ready(function () {
 
 });
 
+function reset() {
+    $.post('/resetAll', (res) =>{
+        location.reload();
+    });
+}
+
+
+function renderChartCatIn(res) {
+    var myLabels =[];
+    var myData =[];
+    res.forEach((value, index)=>{
+        myLabels.push(value.Nome);
+        myData.push(value.Totale);
+    });
+    var ctx = document.getElementById('chartCatIn');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: myLabels,
+            datasets: [{
+                label: 'Totale per Categoria',
+                data: myData,
+                backgroundColor: [
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
+                ],
+                borderColor: [
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(247, 152, 36, 0.85)',
+                ],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: 'black'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 5,
+                    top: 5,
+                    bottom: 0
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function renderChartCatOut(res) {
+    var myLabels =[];
+    var myData =[];
+    res.forEach((value, index)=>{
+        myLabels.push(value.Nome);
+        myData.push(value.Totale);
+    });
+    var ctx = document.getElementById('chartCatOut');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: myLabels,
+            datasets: [{
+                label: 'Totale per Categoria',
+                data: myData,
+                backgroundColor: [
+                    'rgba(247, 152, 36, 0.85)',
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                ],
+                borderColor: [
+                    'rgba(247, 152, 36, 0.85)',
+                    'rgba(208, 0, 0, 0.85)',
+                    'rgba( 0, 127, 255, 0.85)',
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba(49, 57, 60, 0.85)',
+                ],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: 'black'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 5,
+                    top: 5,
+                    bottom: 0
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
 function getData() {
     $.post('/allData', (res) =>{
         renderAll(res);
+        chartonDash(res);
     });
 
     $.post('/getEntrate', (res2) =>{
         renderIN(res2);
-        chartonDash(res2);
+        // chartonDash(res2);
     });
 
     $.post('/getUscite', (res3) =>{
@@ -349,60 +496,46 @@ $.post("/getAvgOut", (res)=>{
         '</tr>';
     $('.avgtabOut').append(tabElem);
 });
-function chartonDash(res, type){
-    var myLabels =[];
-    var myData =[];
-    res.forEach((value, index)=>{
-        console.log("chart to dash func \n", value.Data+" e "+value.Importo);
-        myLabels.push(value.Data);
-        myData.push(value.Importo);
+
+
+function chartonDash(res){
+    var labelIn =[];
+    var dataIn =[];
+    var labelOut =[];
+    var dataOut =[];
+
+    res.forEach((value, index) => {
+        switch (value.Tipo) {
+            case 'U':
+                labelOut.push(value.Nome);
+                dataOut.push(value.Importo);
+                break;
+            case 'E':
+                labelIn.push(value.Nome);
+                dataIn.push(value.Importo);
+                break;
+        }
     });
-    var ctx = document.getElementById('dashChartIn');
+    var canvas = document.getElementById("dashChartOut");
+    var ctx = canvas.getContext('2d');
+
+// Global Options:
+    Chart.defaults.global.defaultFontColor = 'black';
+    Chart.defaults.global.defaultFontSize = 10;
     var myChart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: myLabels,
-            datasets: [{
-                label: 'Valore totale',
-                data: myData,
-                backgroundColor: [
-                    'rgba(208, 0, 0, 0.85)',
-                    'rgba(49, 57, 60, 0.85)',
-                    'rgba(62, 137, 20, 0.85)',
-                    'rgba( 0, 127, 255, 0.85)',
-                    'rgba(247, 152, 36, 0.85)',
-                ],
-                borderColor: [
-                    'rgba(208, 0, 0, 0.85)',
-                    'rgba(49, 57, 60, 0.85)',
-                    'rgba(62, 137, 20, 0.85)',
-                    'rgba( 0, 127, 255, 0.85)',
-                    'rgba(247, 152, 36, 0.85)',
-                ],
-                borderWidth: 3
-            }]
-        },
-        options: {
-            legend: {
-                labels: {
-                    fontColor: 'black'
-                }
-            },
-            layout: {
-                padding: {
-                    left: 5,
-                    right: 5,
-                    top: 5,
-                    bottom: 0
-                }
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+            datasets: [
+                {
+                    label: "Uscite",
+                    backgroundColor: "#cd0600",
+                    data: dataOut
+                },
+                {
+                    label: "Entrate",
+                    backgroundColor: "#0ccd00",
+                    data: dataIn
                 }]
-            }
         }
     });
 }
