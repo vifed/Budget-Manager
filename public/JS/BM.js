@@ -73,13 +73,10 @@ $(document).ready(function () {
     });
 
     $("#delUser-btn").click(()=>{
-        console.log("del user js");
-        $.when(reset()).then(
-            $.post('/delUser', (res) =>{
-                alert("Utente eliminato con successo!\nRegistra ora un nuovo utente...");
-                location.reload();
-            })
-        );
+        $.post('/delUser', (res) =>{
+            alert("Utente eliminato con successo!\nRegistra ora un nuovo utente...");
+            location.reload();
+        })
     });
 
     $("#addCat").click(()=>{
@@ -256,12 +253,10 @@ function getData() {
 
     $.post('/getEntrate', (res2) =>{
         renderIN(res2);
-        // chartonDash(res2);
     });
 
     $.post('/getUscite', (res3) =>{
         renderOUT(res3);
-        // chartonDash(res3, "dashChartOut");
     })
 
 }
@@ -313,17 +308,6 @@ function getLastOut() {
 
 function renderAll(IN) {
     var input=[];
-    // res2.forEach((value, index) => {
-    //     var sample ={
-    //         "Tipo": "Entrata",
-    //         "Nome": value.Nome,
-    //         "Data": value.Data,
-    //         "Importo": value.Importo +" €",
-    //         "Categoria":value.Categoria,
-    //         "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delIn(this.id)"><i class="fa fa-trash"></i></button>'
-    //     };
-    //     input.push(sample);
-    // });
     IN.forEach((value, index)=>{
         var sample="";
         if (value.Tipo === 'E') {
@@ -410,52 +394,11 @@ function renderIN(res2) {
         }
     } );
 }
-//
-// function renderOUT(res2) {
-//     var input=[];
-//     res2.forEach((value, index) => {
-//         var sample ={
-//                 "Tipo": "Uscita",
-//                 "Nome": value.Nome,
-//                 "Data": value.Data,
-//                 "Importo": value.Importo +" €",
-//                 "Categoria":value.Categoria,
-//                 "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-primary"  onclick="delOut(this.id)"><i class="fa fa-trash"></i></button>'
-//             };
-//         input.push(sample);
-//     });
-//     var table = $('#tableOut').DataTable( {
-//         "data":input,
-//         "columns": [
-//             { "data": "Tipo" },
-//             { "data": "Nome" },
-//             { "data": "Data" },
-//             { "data": "Importo" },
-//             { "data": "Categoria" },
-//             { "data": "Elimina" }
-//         ],
-//         "pagingType": "simple",
-//         "language": {
-//             "sProcessing":    "Caricamento...",
-//             "sSearch":        "Cerca:",
-//             "sInfoEmpty":     " ",
-//             "oPaginate": {
-//                 "sFirst":    "Primo",
-//                 "sLast":    "Ultimo",
-//                 "sNext":    "Successivo",
-//                 "sPrevious": "Precedente"
-//             },
-//         }
-//     } );
-//     // $('.dataTables_length').addClass('bs-select');
-// }
-
 
 function delOut(id) {
     var typeOp="";
     $("#modaldel").trigger('click');
     $("#safedel-btn").on('click', function () {
-        console.log(" del tupla : ", typeOp, id);
         $.post("/delElem", {tipo: "Uscita", ID:id}, ()=>{
             window.location.reload();
         })
@@ -466,7 +409,6 @@ function delIn(id) {
     var typeOp="";
     $("#modaldel").trigger('click');
     $("#safedel-btn").on('click', function () {
-        console.log(" del tupla : ", typeOp, id);
         $.post("/delElem", {tipo: "Entrata", ID:id}, ()=>{
             window.location.reload();
         })
@@ -712,33 +654,18 @@ function fillOpOut() {
     $.post("/getOp", (res) =>{
         var input=[];
         res.forEach((value, index) => {
-            switch (value.Tipo) {
-                case 'U':
-                    var sample ={
-                        "ID": value.ID,
-                        "Nome": value.Nome,
-                        "Descrizione": value.Descrizione,
-                        "Tipo":"Uscita",
-                        "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button>'
-                    };
-                    input.push(sample);
-                    // $(".catOut").append(tabout);
-                    var listCatOut ='<option value="'+value.ID+'">'+value.Nome+'</option>';
-                    $("#categoryOut").append(listCatOut);
-                    break;
-                //
-                // case 'E':
-                //     var tabEle = '<tr>' +
-                //         '<td>'+value.ID+'</td>' +
-                //         '<td>'+value.Nome+'</td>' +
-                //         '<td>'+value.Descrizione+'</td>' +
-                //         '<td>Entrata</td>' +
-                //         '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
-                //         '</tr>';
-                //     $(".catIn").append(tabEle);
-                //     var listCatIn ='<option value="'+value.ID+'">'+value.Nome+'</option>';
-                //     $("#categoryIn").append(listCatIn);
-                //     break;
+            if (value.Tipo === 'U') {
+                var sample ={
+                    "ID": value.ID,
+                    "Nome": value.Nome,
+                    "Descrizione": value.Descrizione,
+                    "Tipo":"Uscita",
+                    "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button>'
+                };
+                input.push(sample);
+                // $(".catOut").append(tabout);
+                var listCatOut ='<option value="'+value.ID+'">'+value.Nome+'</option>';
+                $("#categoryOut").append(listCatOut);
             }
         });
         var table = $('#tableCatOut').DataTable( {
@@ -771,31 +698,17 @@ function fillOpIn() {
     $.post("/getOp", (res) =>{
         var input=[];
         res.forEach((value, index) => {
-            switch (value.Tipo) {
-                case 'E':
-                    var sample ={
-                        "ID": value.ID,
-                        "Nome": value.Nome,
-                        "Descrizione": value.Descrizione,
-                        "Tipo":"Entrata",
-                        "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button>'
-                    };
-                    input.push(sample);
-                    var listCatIn ='<option value="'+value.ID+'">'+value.Nome+'</option>';
-                    $("#categoryIn").append(listCatIn);
-                    break;
-                //
-                // case 'E':
-                //     var tabEle = '<tr>' +
-                //         '<td>'+value.ID+'</td>' +
-                //         '<td>'+value.Nome+'</td>' +
-                //         '<td>'+value.Descrizione+'</td>' +
-                //         '<td>Entrata</td>' +
-                //         '<td><button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button></td>'+
-                //         '</tr>';
-                //     $(".catIn").append(tabEle);
-                //
-                //     break;
+            if (value.Tipo === 'E') {
+                var sample ={
+                    "ID": value.ID,
+                    "Nome": value.Nome,
+                    "Descrizione": value.Descrizione,
+                    "Tipo":"Entrata",
+                    "Elimina": '<button id="'+value.ID+'" type="button" class="btn btn-outline-danger"  onclick="delCat(this.id)"><i class="fa fa-trash"></i></button>'
+                };
+                input.push(sample);
+                var listCatIn ='<option value="'+value.ID+'">'+value.Nome+'</option>';
+                $("#categoryIn").append(listCatIn);
             }
         });
         var table = $('#tableCatIn').DataTable( {
@@ -859,7 +772,6 @@ function renderOUT(res2) {
             },
         }
     } );
-    // $('.dataTables_length').addClass('bs-select');
 }
 
 

@@ -34,14 +34,14 @@ var setup = function () {
             throw err;
         else{
             console.log("Database connesso!");
-            myDB.query("CREATE DATABASE IF NOT EXISTS BudMan DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; ", (err)=>{
+            myDB.query("CREATE DATABASE IF NOT EXISTS BudManDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; ", (err)=>{
                 if(err)
                     throw err;
 
                 else{
                     console.log("Database creato!");
 
-                    myDB.query(" USE BudMan; ", (err)=>{
+                    myDB.query(" USE BudManDB; ", (err)=>{
                         if(err)
                             throw err;
                     });
@@ -198,7 +198,7 @@ const myDB = mySql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    // database: "BudMan"
+    // database: "BudManDB"
 });
 
 setup();
@@ -755,7 +755,7 @@ app.post('/getChartOut', (req, res)=>{
                         for(let i=0; i<rows.length; i++){
                             var sample ={
                                 Nome: rows[i].Nome,
-                                Totale: rows[i].TOT_Entrata
+                                Totale: rows[i].TOT_Uscita
                             };
                             resultVal.push(sample);
                         }
@@ -865,7 +865,6 @@ app.post('/userData', (req, res)=>{
 });
 
 app.post('/resetAll', (req, res)=>{
-    console.log("reset all\n");
     myDB.query("DELETE FROM Categoria WHERE Categoria.Predefinito=0", (err, rows)=>{
         if (err)
             throw err;
@@ -888,14 +887,29 @@ app.post('/resetAll', (req, res)=>{
 });
 
 app.post('/delUser', (req, res)=>{
-    console.log("delete user");
-    /** to implement reset first**/
-    myDB.query("DELETE FROM Utente", (err, rows)=>{
+    myDB.query("DELETE FROM Categoria WHERE Categoria.Predefinito=0", (err, rows)=>{
         if (err)
             throw err;
         else{
-            console.log(rows);
-            res.send(200).end();
+            myDB.query("TRUNCATE TABLE Entrata", (err, rows2)=>{
+                if (err)
+                    throw err;
+                else{
+                    myDB.query("TRUNCATE TABLE Uscita", (err, rows3)=>{
+                        if (err)
+                            throw err;
+                        else{
+                            myDB.query("DELETE FROM Utente", (err, rows)=>{
+                                if (err)
+                                    throw err;
+                                else{
+                                    res.send(200).end();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 });

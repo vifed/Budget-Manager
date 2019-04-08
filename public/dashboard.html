@@ -15,15 +15,12 @@
 <div class="container row">
         <nav class="navbar navbar-expand navbar-dark fixed-top justify-content-center">
             <ul class="nav nav-tabs nav-dark nav-fill " style="color: white">
-                <li class="nav-item dropdown no-arrow">
+                <li class="nav-item dropdown no-arrow" >
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span>Benvenuto, <b class="userName"></b></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown">
-                        <hr>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delUser">Elinima Utente</a>
-
-                        <hr>
+                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown" >
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delUser" >Elinima Utente</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -57,7 +54,7 @@
         <div class="table-responsive-sm text-center">
             <table class="table table-sm table-borderless" id="mytable" data-toggle="table"
                    data-sort-name="stargazers_count"
-                   data-sort-order="desc" cellspacing="1" width="100%">
+                   data-sort-order="desc">
                 <thead>
                 <tr style="color: black">
                     <th data-field="Tipo"
@@ -144,99 +141,10 @@
                                     </blockquote>
                                     <div class="card-body col">
 
-                                        <!--<br>-->
-                                        <!--<footer class="blockquote-footer">Andamento delle Entrate per ogni Categoria</footer>-->
-                                        <!--<canvas id="dashChartIn" width="350" height="200"></canvas>-->
-
-                                        <!--<div class="col-6">-->
-                                        <!--</div>&nbsp;-->
-                                        <!--<div class="col-6">-->
-                                            <!---->
-                                        <!--</div>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!--<table class="table table-striped">-->
-                            <!--<thead>-->
-                            <!--<blockquote class="blockquote text-center">-->
-                                <!--<p class="mb-0">Uscita MINIMA.</p>-->
-                                <!--<footer class="blockquote-footer">Uscita con valore più basso</footer>-->
-                            <!--</blockquote>-->
-                            <!--<tr>-->
-                                <!--<th>Nome</th>-->
-                                <!--<th>Data</th>-->
-                                <!--<th>Importo</th>-->
-                                <!--<th>Categoria</th>-->
-                            <!--</tr>-->
-                            <!--</thead>-->
-                            <!--<tbody class="mintabOut">-->
-
-                            <!--</tbody>-->
-                        <!--</table>-->
-                        <!--<table class="table table-striped">-->
-                            <!--<thead>-->
-                            <!--<blockquote class="blockquote text-center">-->
-                                <!--<p class="mb-0">Uscita MEDIA.</p>-->
-                            <!--</blockquote>-->
-                            <!--<tr>-->
-                                <!--<th>Importo valore medio</th>-->
-                            <!--</tr>-->
-                            <!--</thead>-->
-                            <!--<tbody class="avgtabOut">-->
-
-                            <!--</tbody>-->
-                        <!--</table>-->
-                    <!--<div class="card-body row">-->
-                        <!--<table class="table table-striped">-->
-                            <!--<thead>-->
-                            <!--<blockquote class="blockquote text-center">-->
-                                <!--<p class="mb-0">Entrata MASSIMA.</p>-->
-                                <!--<footer class="blockquote-footer">Entrata con valore più alto</footer>-->
-                            <!--</blockquote>-->
-                            <!--<tr>-->
-                                <!--<th>Nome</th>-->
-                                <!--<th>Data</th>-->
-                                <!--<th>Importo</th>-->
-                                <!--<th>Categoria</th>-->
-                            <!--</tr>-->
-                            <!--</thead>-->
-                            <!--<tbody class="maxtabIn">-->
-
-                            <!--</tbody>-->
-                        <!--</table>-->
-                        <!--<table class="table table-striped">-->
-                            <!--<thead>-->
-                            <!--<blockquote class="blockquote text-center">-->
-                                <!--<p class="mb-0">Entrata MINIMA.</p>-->
-                                <!--<footer class="blockquote-footer">Entrata con valore più basso</footer>-->
-                            <!--</blockquote>-->
-                            <!--<tr>-->
-                                <!--<th>Nome</th>-->
-                                <!--<th>Data</th>-->
-                                <!--<th>Importo</th>-->
-                                <!--<th>Categoria</th>-->
-                            <!--</tr>-->
-                            <!--</thead>-->
-                            <!--<tbody class="mintabIn">-->
-
-                            <!--</tbody>-->
-                        <!--</table>-->
-                        <!--<table class="table table-striped">-->
-                            <!--<thead>-->
-                            <!--<blockquote class="blockquote text-center">-->
-                                <!--<p class="mb-0">Entrata MEDIA.</p>-->
-                            <!--</blockquote>-->
-                            <!--<tr>-->
-                                <!--<th>Importo valore medio</th>-->
-                            <!--</tr>-->
-                            <!--</thead>-->
-                            <!--<tbody class="avgtabIn">-->
-                            <!--</tbody>-->
-                        <!--</table>-->
-                <!--</div>-->
-
                 </div>
             </div>
         </div>
@@ -336,7 +244,6 @@
                                     <label class="input-group-text" for="categoryOut">Categoria</label>
                                 </div>
                                 <select class="custom-select" id="categoryOut">
-                                    <option selected>Scegli...</option>
                                 </select>
                             </div>
                         </div>
@@ -392,7 +299,6 @@
                                     <label class="input-group-text" for="categoryIn">Categoria</label>
                                 </div>
                                 <select class="custom-select" id="categoryIn">
-                                    <option selected>Scegli...</option>
                                 </select>
                             </div>
                         </div>
@@ -434,7 +340,7 @@
     </div>
 
 
-</div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
