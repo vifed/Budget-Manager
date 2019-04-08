@@ -1,4 +1,17 @@
+
 $(document).ready(function () {
+
+    $.post('/userExists', (res)=>{
+        if(res === "404" ){
+            alert("Devi prima inserire i dati dell'utente!");
+            $(location).attr("href", "welcome.html");
+        }
+    });
+
+    $.post("/userData", (res)=>{
+        var tabElem = '<b>'+ res.Nome +'</b>'+" "+'<b>'+ res.Cognome +'</b>';
+        $('.userName').append(tabElem);
+    });
 
     getData();
     fillOpOut();
@@ -7,10 +20,7 @@ $(document).ready(function () {
     getLastIn();
     getLastOut();
 
-    $.post("/userData", (res)=>{
-        var tabElem = '<b>'+ res.Nome +'</b>'+" "+'<b>'+ res.Cognome +'</b>';
-        $('.userName').append(tabElem);
-    });
+
 
     $.post('/getChartCatIn', (res)=>{
         renderChartCatIn(res);
@@ -56,12 +66,7 @@ $(document).ready(function () {
         $('.minCatOut').append(tabElem);
     });
     
-    $.post('/userExists', (res)=>{
-        if(res === "404" ){
-            alert("Devi prima inserire i dati dell'utente!");
-            $(location).attr("href", "welcome.html");
-        }
-    });
+
 
     $("#resetAll").click(()=>{
         reset();
@@ -69,11 +74,12 @@ $(document).ready(function () {
 
     $("#delUser-btn").click(()=>{
         console.log("del user js");
-        reset();
-        $.post('/delUser', (res) =>{
-            alert("Utente eliminato con successo!\nRegistra ora un nuovo utente...");
-            location.reload();
-        });
+        $.when(reset()).then(
+            $.post('/delUser', (res) =>{
+                alert("Utente eliminato con successo!\nRegistra ora un nuovo utente...");
+                location.reload();
+            })
+        );
     });
 
     $("#addCat").click(()=>{
@@ -120,9 +126,10 @@ $(document).ready(function () {
 
 });
 
-function reset() {
+async function reset() {
     $.post('/resetAll', (res) =>{
         location.reload();
+        return 1;
     });
 }
 
@@ -499,20 +506,16 @@ $.post("/getAvgOut", (res)=>{
 
 
 function chartonDash(res){
-    var labelIn =[];
-    var dataIn =[];
-    var labelOut =[];
-    var dataOut =[];
+    var dataIn =0;
+    var dataOut =0;
 
     res.forEach((value, index) => {
         switch (value.Tipo) {
             case 'U':
-                labelOut.push(value.Nome);
-                dataOut.push(value.Importo);
+                dataOut += (value.Importo);
                 break;
             case 'E':
-                labelIn.push(value.Nome);
-                dataIn.push(value.Importo);
+                dataIn += (value.Importo);
                 break;
         }
     });
@@ -525,17 +528,42 @@ function chartonDash(res){
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            datasets: [
-                {
-                    label: "Uscite",
-                    backgroundColor: "#cd0600",
-                    data: dataOut
-                },
-                {
-                    label: "Entrate",
-                    backgroundColor: "#0ccd00",
-                    data: dataIn
+            labels: ["Entrate", "Uscite"],
+            datasets: [{
+                label: '',
+                data: [dataIn, dataOut],
+                backgroundColor: [
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba(208, 0, 0, 0.85)'
+                ],
+                borderColor: [
+                    'rgba(62, 137, 20, 0.85)',
+                    'rgba(208, 0, 0, 0.85)'
+                ],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: 'black'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 5,
+                    top: 5,
+                    bottom: 0
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }]
+            }
         }
     });
 }
@@ -599,7 +627,6 @@ $.post("/getChartOut", (res)=>{
 /** **/
 
 /** da entrate.html **/
-
 $.post("/getMaxIN", (res)=>{
     res = JSON.parse(res);
     var tabElem = '<tr>' +
@@ -678,6 +705,7 @@ $.post("/getChartIN", (res)=>{
         }
     });
 });
+
 /** **/
 
 function fillOpOut() {
