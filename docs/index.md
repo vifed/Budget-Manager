@@ -1,37 +1,359 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Budget Manager</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/BM.css">
 
-You can use the [editor on GitHub](https://github.com/violafederico/Budget-Manager/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+</head>
+<body>
+<div class="container row">
+        <nav class="navbar navbar-expand navbar-dark fixed-top justify-content-center">
+            <ul class="nav nav-tabs nav-dark nav-fill " style="color: white">
+                <li class="nav-item dropdown no-arrow" >
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span>Benvenuto, <b class="userName"></b></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="userDropdown" >
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delUser" >Elinima Utente</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="entrate.html">Entrate</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="uscite.html">Uscite</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="categorie.html">Categorie</a>
+                </li>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+            </ul>
+        </nav>
+    <div class="container-fluid col-md-8" style="margin-top:80px">
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#myModalIn">
+            Aggiungi Entrata
+        </button>&nbsp;
+        <button  type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModalOut">
+            Aggiungi Uscita
+        </button>
+        <button  type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModalReset">
+            RESET
+        </button>
+        <br><br>
+        <h4 style="color: #fffff0">Ecco un riepilogo di tutti i tuoi movimenti:</h4>
+        <div class="table-responsive-sm text-center">
+            <table class="table table-sm table-borderless" id="mytable" data-toggle="table"
+                   data-sort-name="stargazers_count"
+                   data-sort-order="desc">
+                <thead>
+                <tr style="color: black">
+                    <th data-field="Tipo"
+                        data-sortable="false" >Tipo</th>
+                    <th data-field="Nome"
+                        data-sortable="true" class="th-sm">Nome</th>
+                    <th data-field="Data"
+                        data-sortable="true" class="th-sm">Data</th>
+                    <th data-field="Importo"
+                        data-sortable="true" class="th-sm">Importo</th>
+                    <th data-field="Categoria"
+                        data-sortable="true" class="th-sm">Categoria</th>
+                    <th data-field="Elimina"
+                        data-sortable="false" >Elimina</th>
+                </tr>
+                </thead>
+                <tbody class="resumeData">
 
-### Markdown
+                </tbody>
+            </table>
+        </div>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+    </div>
 
-- Bulleted
-- List
+    <div class="container-fluid col-md-4" style="margin-top:80px">
+        <div class="col text-center">
+            <div class="card" style="width: 30rem;">
+                <div class="col-12">
+                    <div class="card-body col">
+                        <div>
+                            <blockquote class="blockquote text-center">
+                                <p class="mb-0">Saldo attuale:</p>
+                                <table class="table-responsive table-striped">
+                                    <tbody class="saldo">
+                                    </tbody>
+                                </table>
+                            </blockquote>
+                        <hr/>
+                        </div>
+                        <div>
+                             <blockquote class="blockquote text-center">
+                                <p class="mb-0">Ultima Uscita</p>
+                            </blockquote>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Data</th>
+                                    <th>Importo</th>
+                                    <th>Categoria</th>
+                                </tr>
+                                </thead>
+                                <tbody class="lastOut">
 
-1. Numbered
-2. List
+                                </tbody>
+                            </table>
+                        </div><hr/>
+                        <div>
+                            <blockquote class="blockquote text-center">
+                                <p class="mb-0">Ultima Entrata</p>
+                            </blockquote>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Data</th>
+                                    <th>Importo</th>
+                                    <th>Categoria</th>
+                                </tr>
+                                </thead>
+                                <tbody class="lastIn">
+                                </tbody>
+                            </table>
+                        </div><hr/>
+                        <div class=" text-center">
+                            <div class="card">
+                                <div class="row text-center">
+                                    <blockquote class="blockquote text-center">
+                                        <p class="mb-0">Riepilogo per Tipo:</p>
+                                        <footer class="blockquote-footer text-center">Andamento delle Entrate e Uscite</footer>
+                                        <canvas id="dashChartOut" style=" width: 100%;"></canvas>
+                                    </blockquote>
+                                    <div class="card-body col">
 
-**Bold** and _Italic_ and `Code` text
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-[Link](url) and ![Image](src)
-```
+        <!-- Modal Delete User operation -->
+        <div class="modal fade background" id="delUser">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content addOutModal">
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Sei sicuro di voler eliminare l'utente ?</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
 
-### Jekyll Themes
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <span>Se elimini l'utente attualmente registrato, tutte le modifiche che hai effettuato andranno perse e dovrai
+                            registrare un nuovo utente!
+                        </span>
+                        <h5>Continuare ?</h5>
+                    </div>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/violafederico/Budget-Manager/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="delUser-btn" type="button" class="btn btn-outline-danger" data-dismiss="modal">Elimina</button>
+                        <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                    </div>
 
-### Support or Contact
+                </div>
+            </div>
+        </div>
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" hidden>
+        <a id="modaldel" class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal">Elimina record</a>
+    </div>
+    <!-- Delete Modal-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vuoi eliminare la voce selezionata ?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-success" type="button" data-dismiss="modal">Annulla</button>
+                    <button class="btn btn-outline-danger" id="safedel-btn">Elimina</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal Out operation -->
+        <div class="modal fade background" id="myModalOut">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content addOutModal">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Inserisci i dettagli del tuo movimento in Uscita</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend col-10">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="nomeOut">Nome Uscita</label>
+                                    </div>
+                                    <input type="text" class="form-control border border-info" id="nomeOut"
+                                           placeholder="Affitto, Bollo ...">
+                                </div>
+                            </div>
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend col-10">
+                                    <div class="input-group-prepend">
+                                        <label for="dateOut" class="input-group-text">Data</label>
+                                    </div>
+                                    <input class="form-control" type="date" value="" id="dateOut">
+                                </div>
+                            </div>
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend col-10">
+                                    <div class="input-group-prepend">
+                                        <label for="importOut" class="input-group-text">Importo</label>
+                                    </div>
+                                    <input class="form-control" type="number" placeholder="35.00" id="importOut">
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-4 col-10">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="categoryOut">Categoria</label>
+                                </div>
+                                <select class="custom-select" id="categoryOut">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="addOUT" type="button" class="btn btn-outline-success" data-dismiss="modal">Salva</button>
+                        <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Modal for In operation-->
+        <div class="modal fade background" id="myModalIn">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content addInModal">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Inserisci i dettagli del tuo movimento in Entrata</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend col-10">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="nomeIn">Nome Entrata</label>
+                                    </div>
+                                    <input type="text" class="form-control border border-info" id="nomeIn" placeholder="Paga, Compleanno ...">
+                                </div>
+                            </div>
+                            <div class="input-group mb-4">
+                                <div class="input-group-prepend col-10">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="dataIn">Data</label>
+                                    </div>
+                                    <input class="form-control" type="date" value="" id="dataIn">
+                                </div>
+                            </div>
+                            <div class="input-group mb-4 col-10">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="importIn">Importo</label>
+                                </div>
+                                <input class="form-control" type="number" placeholder="35.00" id="importIn">
+                            </div>
+                            <div class="input-group mb-4 col-10">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="categoryIn">Categoria</label>
+                                </div>
+                                <select class="custom-select" id="categoryIn">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="addIN" type="button" class="btn btn-outline-success" data-dismiss="modal">Salva</button>
+                        <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Reset operation-->
+        <div class="modal fade background text-center" id="myModalReset">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content resetModal">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header" style="text-align: center">
+                        <h4 class="modal-title" style="color: #ff0e3e"><b>RESET</b></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group col">
+                          <h6>Attenzione se prosegui tutte le Entrate e le Uscite che hai inserito saranno cancellate!</h6>
+                          <h6>Le categorie personalizzate verranno eliminate e ripristinate con quelle di default!</h6>
+                          <h5><b>Sei sicuro di voler continuare ?</b></h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="resetAll" type="button" class="btn btn-outline-danger" data-dismiss="modal">Elimina TUTTO</button>
+                        <button type="button" class="btn btn-dismiss" data-dismiss="modal">Indietro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="JS/BM.js"></script>
+</body>
+</html>
